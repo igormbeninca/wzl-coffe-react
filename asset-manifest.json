@@ -813,8 +813,8 @@
     "icon.wrench-js.js": "/wzl-coffe-react/static/js/icon.wrench-js.3eb8ed5b.chunk.js",
     "icon.wrench-js.js.map": "/wzl-coffe-react/static/js/icon.wrench-js.3eb8ed5b.chunk.js.map",
     "main.css": "/wzl-coffe-react/static/css/main.c2f075e5.chunk.css",
-    "main.js": "/wzl-coffe-react/static/js/main.9d918df2.chunk.js",
-    "main.js.map": "/wzl-coffe-react/static/js/main.9d918df2.chunk.js.map",
+    "main.js": "/wzl-coffe-react/static/js/main.dd69795c.chunk.js",
+    "main.js.map": "/wzl-coffe-react/static/js/main.dd69795c.chunk.js.map",
     "runtime-main.js": "/wzl-coffe-react/static/js/runtime-main.43a8354b.js",
     "runtime-main.js.map": "/wzl-coffe-react/static/js/runtime-main.43a8354b.js.map",
     "static/css/408.ead94304.chunk.css": "/wzl-coffe-react/static/css/408.ead94304.chunk.css",
@@ -835,6 +835,6 @@
     "static/css/408.ead94304.chunk.css",
     "static/js/408.8b82dea2.chunk.js",
     "static/css/main.c2f075e5.chunk.css",
-    "static/js/main.9d918df2.chunk.js"
+    "static/js/main.dd69795c.chunk.js"
   ]
 }
