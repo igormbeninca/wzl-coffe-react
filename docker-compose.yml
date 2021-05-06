@@ -1,0 +1,9 @@
+version: '3.7'
+services:
+  coffe_react:
+    container_name: coffe_react_prod
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '80:80'
