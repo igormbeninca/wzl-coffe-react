@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import {
   LoginPage,
   LandingPage,
@@ -12,9 +12,11 @@ import {
   Layout
 } from "../../components";
 
+//basename={process.env.PUBLIC_URL}
+
 export default function App() {
   return (
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
+    <HashRouter>
       <Layout>
         <Routes>
           <Route path="/" element={<LandingPage />} />
@@ -22,7 +24,7 @@ export default function App() {
             path="/coffeanalytics"
             element={<ProtectedRoute component={CoffeAnalytics} />}
           />
-          <Route path="*" element={<NotFoundPage />} />
+          <Route path="*" element={<LandingPage />} />
           <Route
             path="/newcoffe"
             element={<ProtectedRoute component={NewCoffe} />}
@@ -35,6 +37,6 @@ export default function App() {
           />
         </Routes>
       </Layout>
-    </BrowserRouter>
+    </HashRouter>
   );
 }

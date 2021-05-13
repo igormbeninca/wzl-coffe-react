@@ -25,6 +25,9 @@ export const formatAPIPath = (path) => {
   if (adjustedPath.charAt(adjustedPath.length - 1) !== "/") {
     adjustedPath = adjustedPath + "/";
   }
+  if(adjustedPath === "/users/me/" || adjustedPath === "/users/open/"){
+    adjustedPath = adjustedPath.slice(0, adjustedPath.length -1)
+  }
   return adjustedPath;
 };
 /**
@@ -37,8 +40,8 @@ export const formatURL = (url, params) => {
   const endpointPath = formatAPIPath(url);
   const baseUrl =
     process.env.NODE_ENV === "production"
-      ? process.env.REMOVE_SERVER_URL
-      : "http://localhost:8000/api/v1";
+      ? "https://daring-glider-313211.ey.r.appspot.com/api/v1"
+      : "https://daring-glider-313211.ey.r.appspot.com/api/v1";
   const fullURL = `${baseUrl}${endpointPath}`;
   return formatURLWithQueryParams(fullURL, params);
 };

@@ -19,7 +19,7 @@ export function addToast() {
 
 function NewCoffeForm({
   isLoading,
-  newCoffe = async () => console.log("New Coffe Created")
+  newCoffe = async () => console.log("New Coffee Created")
 }) {
   const form = React.useState({
     id_product: "1"

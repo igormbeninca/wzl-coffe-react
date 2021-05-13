@@ -60,14 +60,14 @@ function CoffeCards({ user, isLoading, data, fetchPurchases, fetchUser }) {
           <EuiFlexItem>
             <EuiCard
               icon={<EuiIcon size="xxl" type="monitoringApp" />}
-              title="Total Coffes"
+              title="Total Coffees"
               description={size + " Cups"}
             />
           </EuiFlexItem>
           <EuiFlexItem>
             <EuiCard
               icon={<EuiIcon size="xxl" type="stats" />}
-              title="Avg. Coffes per Day"
+              title="Avg. Coffees per Day"
               description={Math.round(avg_coffe/avg_coffe_arr.length,2) + " Cups"}
             />
           </EuiFlexItem>

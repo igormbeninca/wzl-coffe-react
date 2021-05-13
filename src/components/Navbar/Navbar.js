@@ -118,11 +118,11 @@ function Navbar({ user, logUserOut, ...props }) {
             <EuiHeaderLinks>
               <Link to="/coffeanalytics">
                 <EuiHeaderLink iconType="metricbeatApp">
-                  Coffe Analytics
+                  Coffee Analytics
                 </EuiHeaderLink>
               </Link>
               <Link to="/newcoffe">
-                <EuiHeaderLink iconType="uptimeApp">Add a Coffe</EuiHeaderLink>
+                <EuiHeaderLink iconType="uptimeApp">Add a Coffee</EuiHeaderLink>
               </Link>
             </EuiHeaderLinks>
           ]

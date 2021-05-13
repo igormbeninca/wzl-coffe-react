@@ -45,7 +45,7 @@ function NewCoffe({ user }) {
       <EuiPageBody component="section">
         <EuiFlexGroup direction="column" alignItems="center">
           <EuiFlexItem>
-            <LandingTitle>{"New Coffe?"}</LandingTitle>
+            <LandingTitle>{"New Coffee?"}</LandingTitle>
           </EuiFlexItem>
           <EuiFlexItem>
             <StyledEuiPageContent

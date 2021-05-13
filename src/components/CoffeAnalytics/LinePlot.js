@@ -48,7 +48,7 @@ function LinePlot({ isLoading, data}) {
     }
   });
   return (
-    <EuiCard layout="horizontal" title="Coffe Progression">
+    <EuiCard layout="horizontal" title="Coffee Progression">
       <EuiFlexGroup gutterSize="l" direction="column">
         <EuiFlexItem>
           <EuiFormHelpText id="coffeProgression">
@@ -73,7 +73,7 @@ function LinePlot({ isLoading, data}) {
               <Settings showLegend={false} theme = {theme}/>    
               <LineSeries
                 id="coffe_progression"
-                name="Coffe Progression"
+                name="Coffee Progression"
                 data={plot_data}
                 xScaleType="time"
                 xAccessor={0}
