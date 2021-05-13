@@ -1,6 +1,6 @@
 import initialState from "./initialState";
-import axios from "axios";
-
+// import axios from "axios";
+import apiClient from "../services/apiClient";
 export const CREATE_USER = "@@register/CREATE_USER";
 export const CREATE_USER_FAILURE = "@@register/CREATE_USER_FAILURE";
 export const CREATE_USER_SUCCESS = "@@register/CREATE_USER_SUCCESS";
