@@ -64,7 +64,7 @@ export default function LandingPage() {
                 />
               </EuiFlexItem>
               <EuiFlexItem style={{ minWidth: 360 }}>
-                <LandingTitle>Coffee Analytics</LandingTitle>
+                <LandingTitle>Kiosky Analytics</LandingTitle>
               </EuiFlexItem>
             </EuiFlexGroup>
           </EuiFlexItem>

@@ -23,8 +23,8 @@ const StyledEuiPageContent = styled(EuiPageContent)`
   max-height: 370px !important;
 `;
 const StyledEuiPageContentBody = styled(EuiPageContentBody)`
-  max-width: 370px !important;
-  max-height: 370px !important;
+  max-width: 300px !important;
+  max-height: 300px !important;
   & > img {
     width: 100% !important;
     border-radius: 50% !important;
@@ -43,24 +43,28 @@ function NewCoffe({ user }) {
   return (
     <StyledEuiPage>
       <EuiPageBody component="section">
-        <EuiFlexGroup direction="column" alignItems="center">
-          <EuiFlexItem>
-            <LandingTitle>{"New Coffee?"}</LandingTitle>
-          </EuiFlexItem>
-          <EuiFlexItem>
-            <StyledEuiPageContent
-              horizontalPosition="center"
-              verticalPosition="center"
-            >
-              <StyledEuiPageContentBody>
-                <img src={coffe} alt="coffe" />
-              </StyledEuiPageContentBody>
-            </StyledEuiPageContent>
-          </EuiFlexItem>
-          <EuiFlexItem>
-            <NewCoffeForm />
-          </EuiFlexItem>
-        </EuiFlexGroup>
+        <EuiPageContent verticalPosition="center" horizontalPosition="center">
+          <EuiPageContentBody>
+            <EuiFlexGroup direction="column" alignItems="center">
+              <EuiFlexItem>
+                <LandingTitle>{"Let's do it"}</LandingTitle>
+              </EuiFlexItem>
+              <EuiFlexItem>
+                <StyledEuiPageContent
+                  horizontalPosition="center"
+                  verticalPosition="center"
+                >
+                  <StyledEuiPageContentBody>
+                    <img src={coffe} alt="coffe" />
+                  </StyledEuiPageContentBody>
+                </StyledEuiPageContent>
+              </EuiFlexItem>
+              <EuiFlexItem>
+                <NewCoffeForm />
+              </EuiFlexItem>
+            </EuiFlexGroup>
+            </EuiPageContentBody>
+          </EuiPageContent>
       </EuiPageBody>
     </StyledEuiPage>
   );

@@ -41,7 +41,7 @@ export const formatURL = (url, params) => {
   const baseUrl =
     process.env.NODE_ENV === "production"
       ? "https://daring-glider-313211.ey.r.appspot.com/api/v1"
-      : "https://daring-glider-313211.ey.r.appspot.com/api/v1";
+      : "http://192.168.0.185:8000/api/v1";
   const fullURL = `${baseUrl}${endpointPath}`;
   return formatURLWithQueryParams(fullURL, params);
 };

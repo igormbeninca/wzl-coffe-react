@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Actions as purchaseActions } from "../../redux/purchase";
-import { Actions as productActions } from "../../redux/product";
 import { useNavigate } from "react-router-dom";
 import { htmlIdGenerator } from '@elastic/eui/lib/services';
 import {
@@ -11,6 +10,8 @@ import {
   EuiGlobalToastList,
   EuiSelect,
   EuiRange,
+  EuiFlexGroup,
+  EuiFlexItem
 } from "@elastic/eui";
 
 let addToastHandler;
@@ -22,23 +23,11 @@ export function addToast() {
 
 function NewCoffeForm({
   isLoading,
-  isLoadingProducts,
-  data,
-  fetchProducts,
   newCoffe = async () => console.log("Added new purchase")
 }) {
-  React.useEffect(() => {
-    fetchProducts();
-  }, [fetchProducts]);
-
   const [form, setForm] = React.useState({
     id_product: "1",
     quantity: "1",
-  });
-
-  const products_option = [];
-  data.forEach(element => {
-    products_option.push({value:element.id, text:element.name + " - " + element.price + " €",})
   });
   // Toast
   const [toasts, setToasts] = React.useState([]);
@@ -78,11 +67,11 @@ function NewCoffeForm({
         <EuiFormRow
           label="Select your Product">
           <EuiSelect
-            options={products_option}
-            isLoading = {isLoadingProducts}
-            value={form.id_product}
-            fullWidth={true}
-            onChange={(e) => handleInputChange("id_product", e.target.value)}
+            options={[
+              { value: 'option_one', text: 'Option one' },
+              { value: 'option_two', text: 'Option two' },
+              { value: 'option_three', text: 'Option three' },
+            ]}
           />
         </EuiFormRow>
         <EuiFormRow label="Quantity">
@@ -94,7 +83,6 @@ function NewCoffeForm({
             onChange={(e) => handleInputChange("quantity", e.target.value)}
             showInput
             showRange
-            fullWidth={true}
             tickInterval={1}
         />
         </EuiFormRow>
@@ -102,12 +90,11 @@ function NewCoffeForm({
             type="submit"
             isLoading={isLoading}
             fill
-            fullWidth={true}
             iconSide="left"
             iconType="plusInCircle"
             error={`Please enter a valid input.`}
           >
-            Buy
+            Yes
           </EuiButton>
       </EuiForm>
       <EuiGlobalToastList
@@ -122,13 +109,10 @@ function NewCoffeForm({
 export default connect(
   (state) => ({
     user: state.auth.user,
-    data: state.product.data,
-    isLoadingProducts: state.product.isLoading,
     isLoading: state.purchase.isLoading
   }),
   {
-    newCoffe: purchaseActions.postPuchase,
-    fetchProducts: productActions.fetchProducts,
+    newCoffe: purchaseActions.postPuchase
   }
 )(NewCoffeForm);
 

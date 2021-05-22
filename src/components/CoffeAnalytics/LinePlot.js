@@ -39,19 +39,19 @@ function LinePlot({ isLoading, data}) {
         Date.parse(element.time_stamp) - plot_data[plot_data.length - 1][0] >
         value*60000
       ) {
-        plot_data.push([Date.parse(element.time_stamp), 1]);
+        plot_data.push([Date.parse(element.time_stamp), element.quantity]);
       } else {
-        plot_data[plot_data.length - 1][1] += 1;
+        plot_data[plot_data.length - 1][1] += element.quantity;
       }
     } else {
-      plot_data.push([Date.parse(element.time_stamp), 1]);
+      plot_data.push([Date.parse(element.time_stamp), element.quantity]);
     }
   });
   return (
-    <EuiCard layout="horizontal" title="Coffee Progression">
+    <EuiCard layout="horizontal" title="Product Progression">
       <EuiFlexGroup gutterSize="l" direction="column">
         <EuiFlexItem>
-          <EuiFormHelpText id="coffeProgression">
+          <EuiFormHelpText id="productProgression">
             Inporlation Interval in minutes
           </EuiFormHelpText>
           <EuiRange
@@ -64,7 +64,7 @@ function LinePlot({ isLoading, data}) {
           showRange
           showTicks
           tickInterval={15}
-          aria-describedby="coffeProgression"
+          aria-describedby="productProgression"
           />
         </EuiFlexItem>
         <EuiFlexItem>
@@ -72,8 +72,8 @@ function LinePlot({ isLoading, data}) {
             <Chart size={{ height: 400 }}>
               <Settings showLegend={false} theme = {theme}/>    
               <LineSeries
-                id="coffe_progression"
-                name="Coffee Progression"
+                id="product_Progression"
+                name="Quantity"
                 data={plot_data}
                 xScaleType="time"
                 xAccessor={0}

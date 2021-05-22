@@ -54,7 +54,7 @@ function Navbar({ user, logUserOut, ...props }) {
         aria-label="Account menu"
         onClick={onMenuButtonClick}
       >
-        <EuiAvatar name={user.full_name || "Anonymous"} size="s" />
+        <EuiAvatar name={user.full_name || "Anonymous"} size="s" color="#006bb4" />
       </EuiHeaderSectionItemButton>
     );
 
@@ -75,7 +75,7 @@ function Navbar({ user, logUserOut, ...props }) {
             responsive={false}
           >
             <EuiFlexItem grow={false}>
-              <EuiAvatar name={user.full_name || "Anonymous"} size="xl" />
+              <EuiAvatar name={user.full_name || "Anonymous"} size="xl" color="#006bb4" />
             </EuiFlexItem>
 
             <EuiFlexItem>
@@ -113,16 +113,16 @@ function Navbar({ user, logUserOut, ...props }) {
         {
           items: [
             <Link to="/">
-              <EuiHeaderLogo iconType="monitoringApp"></EuiHeaderLogo>
+              <EuiHeaderLogo  iconType="visBarVerticalStacked"></EuiHeaderLogo>
             </Link>,
             <EuiHeaderLinks>
               <Link to="/coffeanalytics">
-                <EuiHeaderLink iconType="metricbeatApp">
-                  Coffee Analytics
+                <EuiHeaderLink  iconType="visAreaStacked">
+                  Analytics
                 </EuiHeaderLink>
               </Link>
               <Link to="/newcoffe">
-                <EuiHeaderLink iconType="uptimeApp">Add a Coffee</EuiHeaderLink>
+                <EuiHeaderLink iconType="cheer">Buy</EuiHeaderLink>
               </Link>
             </EuiHeaderLinks>
           ]

@@ -4,11 +4,10 @@ export default {
     error: false,
     user: {}
   },
-  machines: {
+  product: {
     isLoading: false,
     error: null,
     data: [{}],
-    currentMachine: null
   },
   register: {
     isLoading: false,
@@ -17,7 +16,13 @@ export default {
   },
   purchase: {
     isLoading: false,
+    error: null,
     data: [{}],
     user: {}
-  }
+  },
+  machines: {
+    isLoading: false,
+    error: null,
+    data: [{}],
+  },
 };

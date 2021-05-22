@@ -71,7 +71,7 @@ Actions.postPuchase = (new_purchase) => {
   });
 };
 
-Actions.fetchPurchases = (init_date, end_date) => {
+Actions.fetchPurchases = (id_product,init_date, end_date) => {
   return apiClient({
     url: `/purchase/`,
     method: `GET`,
@@ -82,7 +82,7 @@ Actions.fetchPurchases = (init_date, end_date) => {
     },
     options: {
       data: {},
-      params: {init_date, end_date}
+      params: {id_product,init_date, end_date}
     }
   });
 };
