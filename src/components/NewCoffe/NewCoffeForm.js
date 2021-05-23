@@ -9,7 +9,7 @@ import {
   EuiForm, 
   EuiFormRow,
   EuiGlobalToastList,
-  EuiSelect,
+  EuiSuperSelect,
   EuiRange,
 } from "@elastic/eui";
 
@@ -38,7 +38,9 @@ function NewCoffeForm({
 
   const products_option = [];
   data.forEach(element => {
-    products_option.push({value:element.id, text:element.name + " - " + element.price + " €",})
+    products_option.push({
+      value: "" + element.id, 
+      inputDisplay: element.name + " - " + element.price + " €",})
   });
   // Toast
   const [toasts, setToasts] = React.useState([]);
@@ -77,12 +79,12 @@ function NewCoffeForm({
       <EuiForm component="form" onSubmit={handleSubmit}>
         <EuiFormRow
           label="Select your Product">
-          <EuiSelect
+          <EuiSuperSelect
             options={products_option}
             isLoading = {isLoadingProducts}
-            value={form.id_product}
+            valueOfSelected={form.id_product}
             fullWidth={true}
-            onChange={(e) => handleInputChange("id_product", e.target.value)}
+            onChange={(value) => handleInputChange("id_product", value)}
           />
         </EuiFormRow>
         <EuiFormRow label="Quantity">

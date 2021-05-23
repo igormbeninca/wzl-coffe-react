@@ -9,7 +9,8 @@ import {
   RegistrationPage,
   CoffeAnalytics,
   NewCoffe,
-  Layout
+  Layout,
+  AdminPage
 } from "../../components";
 
 //basename={process.env.PUBLIC_URL}
@@ -34,6 +35,10 @@ export default function App() {
           <Route
             path="/profile"
             element={<ProtectedRoute component={ProfilePage} />}
+          />
+          <Route
+            path="/adminPanel"
+            element={<ProtectedRoute component={AdminPage} />}
           />
         </Routes>
       </Layout>

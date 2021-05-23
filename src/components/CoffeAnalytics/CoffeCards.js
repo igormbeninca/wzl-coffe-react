@@ -12,7 +12,8 @@ import {
   EuiIcon,
   EuiFlexGroup,
   EuiSpacer,
-  EuiFlexItem
+  EuiFlexItem,
+  EuiToolTip
 } from "@elastic/eui";
 
 function CoffeCards({ user, isLoading, data, fetchPurchases, fetchUser }) {
@@ -53,12 +54,20 @@ function CoffeCards({ user, isLoading, data, fetchPurchases, fetchUser }) {
         <EuiSpacer size = "s"/>
         <EuiFlexGroup>
           <EuiFlexItem>
-            <EuiCard
-              layout="horizontal"
-              icon={<EuiIcon size="xxl" type="globe" />}
-              title="Total"
-              description={total_product===0? "0" :  total_product}
-            />
+            <EuiToolTip
+              position="bottom"
+              content={
+              <p>
+              Brasilien 7 x 1 Deutschland
+              </p>
+              }>
+              <EuiCard
+                layout="horizontal"
+                icon={<EuiIcon size="xxl" type="globe" />}
+                title="Total"
+                description={total_product===0? "0" :  total_product}
+              />
+              </EuiToolTip>
           </EuiFlexItem>
           <EuiFlexItem>
             <EuiCard

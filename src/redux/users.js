@@ -1,28 +1,28 @@
 import initalState from "./initialState";
 import apiClient from "../services/apiClient";
-export const FETCH_PRODUCT = "@@product/FETCH_PRODUCT";
-export const FETCH_PRODUCT_SUCCESS = "@@product/FETCH_PRODUCT_SUCCESS";
-export const FETCH_PRODUCT_FAILURE = "@@product/FETCH_PRODUCT_FAILURE";
+export const FETCH_USERS = "@@users/FETCH_users";
+export const FETCH_USERS_SUCCESS = "@@users/FETCH_USERS_SUCCESS";
+export const FETCH_USERS_FAILURE = "@@users/FETCH_USERS_FAILURE";
 
-export default function productReducer(
-  state = initalState.product,
+export default function usersReducer(
+  state = initalState.users,
   action = {}
 ) {
   switch (action.type) {
-    case FETCH_PRODUCT:
+    case FETCH_USERS:
       return {
         ...state,
         isLoading: true,
         error: action.error
       };
-    case FETCH_PRODUCT_SUCCESS:
+    case FETCH_USERS_SUCCESS:
       return {
         ...state,
         data: action.data,
         isLoading: false,
         error: null
       };
-    case FETCH_PRODUCT_FAILURE:
+    case FETCH_USERS_FAILURE:
       return {
         ...state,
         isLoading: false,
@@ -34,14 +34,14 @@ export default function productReducer(
 }
 export const Actions = {};
 
-Actions.fetchProducts = () => {
+Actions.fetchUsers = () => {
   return apiClient({
-    url: `/product/`,
+    url: `/users/`,
     method: `GET`,
     types: {
-      REQUEST: FETCH_PRODUCT,
-      SUCCESS: FETCH_PRODUCT_SUCCESS,
-      FAILURE: FETCH_PRODUCT_FAILURE
+      REQUEST: FETCH_USERS,
+      SUCCESS: FETCH_USERS_SUCCESS,
+      FAILURE: FETCH_USERS_FAILURE
     },
     options: {
       data: {},

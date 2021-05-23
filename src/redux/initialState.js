@@ -25,4 +25,9 @@ export default {
     error: null,
     data: [{}],
   },
+  users: {
+    isLoading: false,
+    error: null,
+    data: [{}],
+  },
 };

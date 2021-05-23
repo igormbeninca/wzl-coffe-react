@@ -38,7 +38,7 @@ export default function Layout({ children }) {
     <React.Fragment>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>WZL Coffee Analyser</title>
+        <title>WZL Kiosk</title>
         <link rel="canonical" href="#" />
       </Helmet>
       <ThemeProvider theme={customTheme}>

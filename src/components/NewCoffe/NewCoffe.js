@@ -19,8 +19,8 @@ const StyledEuiPage = styled(EuiPage)`
 
 const StyledEuiPageContent = styled(EuiPageContent)`
   border-radius: 50% !important;
-  max-width: 370px !important;
-  max-height: 370px !important;
+  max-width: 300px !important;
+  max-height: 300px !important;
 `;
 const StyledEuiPageContentBody = styled(EuiPageContentBody)`
   max-width: 300px !important;

@@ -13,3 +13,5 @@ export { default as RegistrationForm } from "./RegistrationForm/RegistrationForm
 export { default as NotFoundPage } from "./NotFoundPage/NotFoundPage";
 export { default as CoffeAnalytics } from "./CoffeAnalytics/CoffeAnalytics";
 export { default as NewCoffe } from "./NewCoffe/NewCoffe";
+export { default as AdminPage } from "./Admin/AdminPage";
+export {default as AdminTable } from "./Admin/AdminTable";

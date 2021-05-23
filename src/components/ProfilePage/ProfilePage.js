@@ -72,7 +72,7 @@ function ProfilePage({ user }) {
               </p> */}
               <p>
                 <EuiIcon type="currency" />{" "}
-                {user.saldo ? user.saldo + " €" : "No Saldo"}
+                {user.saldo ? user.saldo.toFixed(2) + " €" : "No Saldo"}
               </p>
               <p>
                 <EuiIcon type="number" />{" "}

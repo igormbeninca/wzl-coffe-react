@@ -54,7 +54,12 @@ function Navbar({ user, logUserOut, ...props }) {
         aria-label="Account menu"
         onClick={onMenuButtonClick}
       >
-        <EuiAvatar name={user.full_name || "Anonymous"} size="s" color="#006bb4" />
+        {/* <EuiAvatar name={user.full_name || "Anonymous"} size="s" color="#006bb4" /> */}
+        <EuiAvatar  
+          name={user.full_name || ""} 
+          iconType={user.full_name != null? "" :"push"} 
+          size="m" 
+          color="#006bb4" />
       </EuiHeaderSectionItemButton>
     );
 
@@ -75,12 +80,17 @@ function Navbar({ user, logUserOut, ...props }) {
             responsive={false}
           >
             <EuiFlexItem grow={false}>
-              <EuiAvatar name={user.full_name || "Anonymous"} size="xl" color="#006bb4" />
+            <EuiAvatar  
+              name={user.full_name || ""} 
+              iconType={user.full_name != null? "user" :"visBarVerticalStacked"} 
+              size="xl"
+              color="#006bb4"  
+              />
             </EuiFlexItem>
 
             <EuiFlexItem>
               <EuiText>
-                <p>{user.full_name || "Anonymous"}</p>
+                <p>{user.full_name || "What you waiting for?"}</p>
               </EuiText>
 
               <EuiSpacer size="m" />
@@ -89,13 +99,13 @@ function Navbar({ user, logUserOut, ...props }) {
                 <EuiFlexItem>
                   <EuiFlexGroup justifyContent="spaceBetween">
                     <EuiFlexItem grow={false}>
-                    <Link to="/profile">
-                      <EuiLink>Edit profile</EuiLink>
+                    <Link to={user.full_name != null? "/profile" :"/registration"}>
+                      <EuiLink>{user.full_name != null? "Profile" :"Sign up"}</EuiLink>
                     </Link>
                   </EuiFlexItem>
 
-                    <EuiFlexItem grow={false}>
-                      <EuiLink onClick={() => handleLogout()}>Log out</EuiLink>
+                    <EuiFlexItem grow={true}>
+                      <EuiLink onClick={() => handleLogout()}>{user.full_name != null? "Log out" :"Log in"}</EuiLink>
                     </EuiFlexItem>
                   </EuiFlexGroup>
                 </EuiFlexItem>
@@ -124,8 +134,11 @@ function Navbar({ user, logUserOut, ...props }) {
               <Link to="/newcoffe">
                 <EuiHeaderLink iconType="cheer">Buy</EuiHeaderLink>
               </Link>
+              <Link to="/adminPanel">
+                {user.is_superuser === true ? <EuiHeaderLink iconType="reporter">Admin</EuiHeaderLink> : null}
+              </Link>
             </EuiHeaderLinks>
-          ]
+          ],
           // borders: "right"
         },
         {
@@ -136,7 +149,7 @@ function Navbar({ user, logUserOut, ...props }) {
               </EuiHeaderSectionItem>
             </EuiHeaderSection>
           ],
-          borders: "right"
+          // borders: "right"
         }
       ]}
     />
