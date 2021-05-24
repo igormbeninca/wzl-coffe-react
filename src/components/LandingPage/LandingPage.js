@@ -63,7 +63,7 @@ export default function LandingPage() {
                 <EuiIcon
                   type="https://www.wzl.rwth-aachen.de/global/show_picture.asp?id=aaaaaaaaabdlfcs"
                   color="primary"
-                  size="orignal"
+                  size="original"
                 />
               </EuiFlexItem>
             </EuiFlexGroup>
