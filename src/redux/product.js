@@ -38,6 +38,7 @@ Actions.fetchProducts = () => {
   return apiClient({
     url: `/product/`,
     method: `GET`,
+    adjustPath:true,
     types: {
       REQUEST: FETCH_PRODUCT,
       SUCCESS: FETCH_PRODUCT_SUCCESS,

@@ -59,6 +59,7 @@ Actions.postPuchase = (new_purchase) => {
   return apiClient({
     url: `/purchase/`,
     method: `POST`,
+    adjustPath:true,
     types: {
       REQUEST: POST_PURCHASE,
       SUCCESS: POST_PURCHASE_SUCCESS,
@@ -75,6 +76,7 @@ Actions.fetchPurchases = (id_product,init_date, end_date) => {
   return apiClient({
     url: `/purchase/`,
     method: `GET`,
+    adjustPath:true,
     types: {
       REQUEST: FETCH_PURCHASES,
       SUCCESS: FETCH_PURCHASES_SUCCESS,

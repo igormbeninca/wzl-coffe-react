@@ -205,7 +205,7 @@ function RegistrationForm({
         />
         <EuiSpacer />
         <EuiButton type="submit" fill>
-          Sign Up
+          Sign up
         </EuiButton>
       </EuiForm>
 

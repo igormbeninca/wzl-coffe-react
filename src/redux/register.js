@@ -66,8 +66,9 @@ export const Actions = {};
 
 Actions.createUser = ({ email, password, full_name }) => {
   return apiClient({
-    url: `/users/open/`,
+    url: `/users/open`,
     method: `POST`,
+    adjustPath: false,
     types: {
       REQUEST: CREATE_USER,
       SUCCESS: CREATE_USER_SUCCESS,

@@ -30,4 +30,9 @@ export default {
     error: null,
     data: [{}],
   },
+  password:{
+    isLoading: false,
+    error: null,
+    data:{},
+  }
 };

@@ -118,7 +118,7 @@ function Navbar({ user, logUserOut, ...props }) {
   };
 
   return (
-    <EuiHeader
+    <EuiHeader 
       sections={[
         {
           items: [

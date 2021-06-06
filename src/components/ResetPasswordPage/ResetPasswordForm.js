@@ -1,14 +1,9 @@
 import React from "react";
-
 import { connect } from "react-redux";
-
-import {
-  Actions as authActions,
-  FETCHING_USER_FROM_TOKEN_SUCCESS
-} from "../../redux/auth";
-
 import { useNavigate } from "react-router-dom";
-
+import {
+  Actions as passwordActions
+} from "../../redux/password";
 import {
   EuiButton,
   EuiFieldText,
@@ -19,31 +14,30 @@ import {
 } from "@elastic/eui";
 import { Link } from "react-router-dom";
 import validation from "../../utils/validation";
+import { htmlIdGenerator } from "@elastic/eui/lib/services";
 import styled from "styled-components";
+import { useParams } from "react-router-dom"
 
-const LoginFormWrapper = styled.div`
+const ResetPasswordFormWrapper = styled.div`
   padding: 2rem;
 `;
 const NeedAccountLink = styled.span`
   font-size: 0.8rem;
 `;
 
-const ForgotPasswordLink = styled.span`
-  font-size: 0.8rem;
-`;
-
-
-function LoginForm({
-  user,
-  authError,
+function ResetPasswordForm({
   isLoading,
-  isAuthenticated,
-  requestUserLogin
+  error,
+  data,
+  resetPassword,
 }) {
+  const { token } = useParams()
+
   const [hasSubmitted, setHasSubmitted] = React.useState(false);
+
   const [form, setForm] = React.useState({
-    email: "",
-    password: ""
+    password: "",
+    passwordConfirm: ""
   });
   const [errors, setErrors] = React.useState({});
 
@@ -60,14 +54,30 @@ function LoginForm({
 
     setForm((form) => ({ ...form, [label]: value }));
   };
-
   const navigate = useNavigate();
   // if the user is already authenticated, redirect them to the "/profile" page
-  React.useEffect(() => {
-    if (user?.email && isAuthenticated) {
-      navigate("/");
-    }
-  }, [user, navigate, isAuthenticated]);
+//   React.useEffect(() => {
+//     if (data && !isLoading && !error) {
+//       navigate("/");
+//       return(
+//         <ResetPasswordFormWrapper>
+//             <EuiFieldText>
+//                 Fuck you
+//             </EuiFieldText>
+//       </ResetPasswordFormWrapper>
+//       );
+//     }
+//   }, [data]);
+
+  const handlePasswordConfirmChange = (value) => {
+    setErrors((errors) => ({
+      ...errors,
+      passwordConfirm:
+        form.password !== value ? `Passwords do not match.` : null
+    }));
+
+    setForm((form) => ({ ...form, passwordConfirm: value }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -83,21 +93,28 @@ function LoginForm({
       return;
     }
 
-    //await requestUserLogin({ email: form.email, password: form.password });
+    // some additional validation
+    if (form.password !== form.passwordConfirm) {
+      setErrors((errors) => ({ ...errors, form: `Passwords do not match.` }));
+      return;
+    }
 
     setHasSubmitted(true);
-    const action = await requestUserLogin({
-      email: form.email,
-      password: form.password
+    const action = await resetPassword({
+      token: token,
+      new_password: form.password,
     });
-    // reset the password form state if the login attempt is not successful
-    if (action.type !== FETCHING_USER_FROM_TOKEN_SUCCESS)
-      setForm((form) => ({ ...form, password: "" }));
+    if (action?.success && !isLoading){
+      setForm((form) => ({ ...form, password: "", passwordConfirm: "" }));
+      navigate("/login");
+    }
+    //else navigate("/login");
   };
+
   const getFormErrors = () => {
     const formErrors = [];
-    if (authError && hasSubmitted && !isLoading) {
-      formErrors.push(`Invalid credentials. Please try again.`);
+    if (error && hasSubmitted && !isLoading) {
+      formErrors.push(`Could not reset password`);
     }
     if (errors.form) {
       formErrors.push(errors.form);
@@ -106,7 +123,7 @@ function LoginForm({
   };
 
   return (
-    <LoginFormWrapper>
+    <ResetPasswordFormWrapper>
       <EuiForm
         component="form"
         onSubmit={handleSubmit}
@@ -114,24 +131,8 @@ function LoginForm({
         error={getFormErrors()}
       >
         <EuiFormRow
-          label="Email"
-          helpText="Enter the email associated with your account."
-          isInvalid={Boolean(errors.email)}
-          error={`Please enter a valid email.`}
-        >
-          <EuiFieldText
-            icon="email"
-            placeholder="user@wzl.rwth-aachen.de"
-            value={form.email}
-            onChange={(e) => handleInputChange("email", e.target.value)}
-            aria-label="Enter the email associated with your account."
-            isInvalid={Boolean(errors.email)}
-          />
-        </EuiFormRow>
-
-        <EuiFormRow
           label="Password"
-          helpText="Enter your password."
+          helpText="Enter your new password."
           isInvalid={Boolean(errors.password)}
           error={`Password must be at least 7 characters.`}
         >
@@ -140,36 +141,41 @@ function LoginForm({
             value={form.password}
             onChange={(e) => handleInputChange("password", e.target.value)}
             type="dual"
-            aria-label="Enter your password."
+            aria-label="Enter your new password."
             isInvalid={Boolean(errors.password)}
           />
         </EuiFormRow>
+        <EuiFormRow
+          label="Confirm new password"
+          helpText="Confirm your new password."
+          isInvalid={Boolean(errors.passwordConfirm)}
+          error={`Passwords must match.`}
+        >
+          <EuiFieldPassword
+            placeholder="••••••••••••"
+            value={form.passwordConfirm}
+            onChange={(e) => handlePasswordConfirmChange(e.target.value)}
+            type="dual"
+            aria-label="Confirm your new password."
+            isInvalid={Boolean(errors.passwordConfirm)}
+          />
+        </EuiFormRow>
         <EuiSpacer />
-        <EuiButton type="submit" fill isLoading={isLoading}>
-          Submit
+        <EuiButton type="submit" fill>
+          Confirm
         </EuiButton>
       </EuiForm>
-
-      <EuiSpacer size="xl" />
-
-      <NeedAccountLink>
-        Need an account? Sign up <Link to="/registration">here</Link>.
-      </NeedAccountLink>
-      <EuiSpacer size="m" />
-      <ForgotPasswordLink>
-        Forgot your password? Recover it <Link to="/forgot">here</Link>.
-      </ForgotPasswordLink>
-    </LoginFormWrapper>
+    </ResetPasswordFormWrapper>
   );
 }
-const mapStateToProps = (state) => ({
-  authError: state.auth.error,
-  isLoading: state.auth.isLoading,
-  isAuthenticated: state.auth.isAuthenticated,
-  user: state.auth.user
-});
-const mapDispatchToProps = (dispatch) => ({
-  requestUserLogin: ({ email, password }) =>
-    dispatch(authActions.requestUserLogin({ email, password }))
-});
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
+
+export default connect(
+  (state) => ({
+    error: state.password.error,
+    isLoading: state.password.isLoading,
+    data: state.password.data
+  }),
+  {
+    resetPassword: passwordActions.postReset
+  }
+)(ResetPasswordForm);

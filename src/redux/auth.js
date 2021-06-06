@@ -82,8 +82,12 @@ Actions.requestUserLogin = ({ email, password }) => {
       // make the actual HTTP request to our API
       const res = await axios({
         method: `POST`,
-        //url: `https://daring-glider-313211.ey.r.appspot.com/api/v1/login/access-token`,
-        url: `http://192.168.0.185:8000/api/v1/login/access-token`,
+        url :
+        process.env.NODE_ENV === "production"
+          ? `https://daring-glider-313211.ey.r.appspot.com/api/v1/login/access-token`
+          : `http://192.168.0.185:8000/api/v1/login/access-token`,
+        // url: `https://daring-glider-313211.ey.r.appspot.com/api/v1/login/access-token`,
+        // //url: `http://192.168.0.185:8000/api/v1/login/access-token`,
         data: formData,
         headers
       });
@@ -95,7 +99,7 @@ Actions.requestUserLogin = ({ email, password }) => {
       dispatch({ type: REQUEST_LOGIN_SUCCESS });
       return dispatch(Actions.fetchUserFromToken(access_token));
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       // dispatch the failure action
       return dispatch({ type: REQUEST_LOGIN_FAILURE, error: error.message });
     }
@@ -104,8 +108,9 @@ Actions.requestUserLogin = ({ email, password }) => {
 
 Actions.fetchUserFromToken = () => {
   return apiClient({
-    url: `/users/me/`,
+    url: `/users/me`,
     method: `GET`,
+    adjustPath:false,
     types: {
       REQUEST: FETCHING_USER_FROM_TOKEN,
       SUCCESS: FETCHING_USER_FROM_TOKEN_SUCCESS,

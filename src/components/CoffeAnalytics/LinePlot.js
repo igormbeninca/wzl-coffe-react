@@ -2,7 +2,7 @@ import * as React from "react";
 import {
   Chart,
   Axis,
-  LineSeries,
+  BarSeries,
   Settings,
   formatDate,
   EuiLoadingSpinner,
@@ -24,10 +24,19 @@ const theme = {
     }
   }
 }
+const ticks = [
+  { label: '', value: 0 },
+  { label: 'Day', value: 1440 },
+  { label: 'Week', value: 10080 },
+  {label: 'Month', value: 43200 },
+  //{label:'3 Months', value: 129600},
+  //{label:'6 Months', value:259200},
+  //{label: 'Year', value: 525600}
+]
 function LinePlot({ isLoading, data}) {
   if (isLoading) return <EuiLoadingSpinner size="xl" />;
 
-  const [value, setValue] = React.useState('15');
+  const [value, setValue] = React.useState('1440');
   const onChange = (e) => {
     setValue(e.target.value);
   };
@@ -56,33 +65,34 @@ function LinePlot({ isLoading, data}) {
           </EuiFormHelpText>
           <EuiRange
           id={htmlIdGenerator()()}
-          max = {60}
+          max = {43200}
           min = {0}
           value={value}
           onChange={onChange}
-          showInput
-          showRange
           showTicks
-          tickInterval={15}
+          ticks={ticks}
+          showInput
+          //fullWidth={true}
+          tickInterval={1440}
           aria-describedby="productProgression"
           />
         </EuiFlexItem>
         <EuiFlexItem>
-          <div className="LinePlot">
+          <div className="BarPlot">
             <Chart size={{ height: 400 }}>
               <Settings showLegend={false} theme = {theme}/>    
-              <LineSeries
+              <BarSeries
                 id="product_Progression"
                 name="Quantity"
                 data={plot_data}
                 xScaleType="time"
                 xAccessor={0}
                 yAccessors={[1]}
-                curve={CurveType.CURVE_BASIS}
+                //curve={CurveType.CURVE_BASIS}
               />
 
               <Axis
-                title={"Time Stamp"}
+                title={"Time"}
                 id="bottom-axis"
                 position="bottom"
                 tickFormat={timeFormatter("YYYY MM.DD HH:mm")}
@@ -90,7 +100,7 @@ function LinePlot({ isLoading, data}) {
                 //showOverlappingTicks={false}
                 //showOverlappingLabels={false}
               />
-              <Axis id="left-axis" position="left" showGridLines />
+              <Axis id="left-axis" position="left" title = "Quantity" showGridLines />
             </Chart>
           </div>
       </EuiFlexItem>
@@ -107,3 +117,6 @@ export default connect(
     //fetchPurchases: purchaseActions.fetchPurchases
   }
 )(LinePlot);
+
+
+

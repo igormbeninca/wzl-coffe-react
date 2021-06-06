@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Actions as productActions } from "../../redux/product";
 import { Actions as purchaseActions } from "../../redux/purchase";
 import moment from 'moment';
-import {   EuiSelect, EuiDatePicker, EuiDatePickerRange,  EuiFlexGroup, EuiFlexItem } from "@elastic/eui";
+import { EuiSuperSelect, EuiDatePicker, EuiDatePickerRange,  EuiFlexGroup, EuiFlexItem } from "@elastic/eui";
 
 function ProductDropDownMenu({
   isLoading,
@@ -14,7 +14,7 @@ function ProductDropDownMenu({
 
   const [startDate, setStartDate] = useState(moment("2021-01-01T00:00"));
   const [endDate, setEndDate] = useState(moment());
-  const [selectedOptions, setSelected] = useState(1);
+  const [selectedOptions, setSelected] = useState("1");
   React.useEffect(() => {
     fetchProducts();
   }, [fetchProducts]);
@@ -27,21 +27,35 @@ function ProductDropDownMenu({
 
   const products_option = [];
   data.forEach(element => {
-    products_option.push({value:element.id, text:element.name})
+    products_option.push({
+      value: "" + element.id, 
+      inputDisplay: element.name})
   });
 
-  const onChange = (e) => {
-    setSelected(e.target.value);
+  // const onChange = (e) => {
+  //   setSelected(e.target.value);
+  // };
+  const onChange = (value) => {
+    setSelected(value);
   };
+
+
 
   return (
     <EuiFlexGroup gutterSize="s" direction="column">
       <EuiFlexItem>
-        <EuiSelect
+        {/* <EuiSelect
           options={products_option}
           isLoading = {isLoading}
           value={selectedOptions}
           onChange={(e) => onChange(e)}
+        /> */}
+        <EuiSuperSelect
+          options={products_option}
+          isLoading = {isLoading}
+          valueOfSelected={selectedOptions}
+          //fullWidth={true}
+          onChange={(value) => onChange(value)}
         />
       </EuiFlexItem>
       <EuiFlexItem>

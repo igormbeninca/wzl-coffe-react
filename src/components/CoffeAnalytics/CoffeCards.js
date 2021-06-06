@@ -11,6 +11,7 @@ import {
   EuiCard,
   EuiIcon,
   EuiFlexGroup,
+  EuiFlexGrid,
   EuiSpacer,
   EuiFlexItem,
   EuiToolTip
@@ -52,7 +53,7 @@ function CoffeCards({ user, isLoading, data, fetchPurchases, fetchUser }) {
     >
         <ProductDropDownMenu/>
         <EuiSpacer size = "s"/>
-        <EuiFlexGroup>
+        <EuiFlexGrid columns={3}>
           <EuiFlexItem>
             <EuiToolTip
               position="bottom"
@@ -85,7 +86,7 @@ function CoffeCards({ user, isLoading, data, fetchPurchases, fetchUser }) {
               description={saldo + " €"}
             />
           </EuiFlexItem>
-        </EuiFlexGroup>
+        </EuiFlexGrid>
     </EuiCard>
   );
 }

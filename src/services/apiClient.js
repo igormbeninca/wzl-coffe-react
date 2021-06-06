@@ -30,6 +30,7 @@ const getClient = (token = null) => {
 const apiClient = ({
   url,
   method,
+  adjustPath,
   types: { REQUEST, SUCCESS, FAILURE },
   options: { data, params },
   onSuccess = (res) => ({
@@ -49,7 +50,7 @@ const apiClient = ({
     const token = localStorage.getItem("access_token");
     const client = getClient(token);
     dispatch({ type: REQUEST });
-    const urlPath = formatURL(url, params);
+    const urlPath = formatURL(url, params, adjustPath);
     try {
       const res = await client[method.toLowerCase()](urlPath, data);
       dispatch({ type: SUCCESS, data: res.data });

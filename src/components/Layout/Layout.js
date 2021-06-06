@@ -6,7 +6,7 @@ import euiVars from "@elastic/eui/dist/eui_theme_light.json";
 import "@elastic/eui/dist/eui_theme_light.css";
 import "../../assets/css/fonts.css";
 import "../../assets/css/override.css";
-import { EuiPageSideBar } from "@elastic/eui";
+import { } from "@elastic/eui";
 
 const customTheme = {
   ...euiVars,
@@ -27,7 +27,6 @@ const StyledMain = styled.main`
   display: flex;
   /* background: linear-gradient(87deg, #8daedc 0, #3164a2 100%) !important; */
   flex-direction: column;
-
   & h1 {
     color: ${(props) => props.theme.euiTitleColor};
   }

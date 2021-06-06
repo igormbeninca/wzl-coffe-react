@@ -25,23 +25,24 @@ function NewCoffeForm({
   isLoadingProducts,
   data,
   fetchProducts,
+  id_,
   newCoffe = async () => console.log("Added new purchase")
 }) {
-  React.useEffect(() => {
-    fetchProducts();
-  }, [fetchProducts]);
+  // React.useEffect(() => {
+  //   fetchProducts();
+  // }, [fetchProducts]);
 
   const [form, setForm] = React.useState({
-    id_product: "1",
+    id_product: id_,
     quantity: "1",
   });
 
-  const products_option = [];
-  data.forEach(element => {
-    products_option.push({
-      value: "" + element.id, 
-      inputDisplay: element.name + " - " + element.price + " €",})
-  });
+  // const products_option = [];
+  // data.forEach(element => {
+  //   products_option.push({
+  //     value: "" + element.id, 
+  //     inputDisplay: element.name + " - " + element.price + " €",})
+  // });
   // Toast
   const [toasts, setToasts] = React.useState([]);
 
@@ -77,7 +78,7 @@ function NewCoffeForm({
   return (
     <>
       <EuiForm component="form" onSubmit={handleSubmit}>
-        <EuiFormRow
+        {/* <EuiFormRow
           label="Select your Product">
           <EuiSuperSelect
             options={products_option}
@@ -86,7 +87,7 @@ function NewCoffeForm({
             fullWidth={true}
             onChange={(value) => handleInputChange("id_product", value)}
           />
-        </EuiFormRow>
+        </EuiFormRow> */}
         <EuiFormRow label="Quantity">
           <EuiRange
             id={htmlIdGenerator()()}
@@ -102,6 +103,7 @@ function NewCoffeForm({
         </EuiFormRow>
         <EuiButton
             type="submit"
+            color="secondary" 
             isLoading={isLoading}
             fill
             fullWidth={true}

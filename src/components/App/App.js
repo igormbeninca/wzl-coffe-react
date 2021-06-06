@@ -10,7 +10,9 @@ import {
   CoffeAnalytics,
   NewCoffe,
   Layout,
-  AdminPage
+  AdminPage,
+  ForgotPasswordPage,
+  ResetPasswordPage,
 } from "../../components";
 
 //basename={process.env.PUBLIC_URL}
@@ -32,6 +34,8 @@ export default function App() {
           />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/registration" element={<RegistrationPage />} />
+          <Route path="/forgot" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password/:token" element={<ResetPasswordPage/>}/>
           <Route
             path="/profile"
             element={<ProtectedRoute component={ProfilePage} />}

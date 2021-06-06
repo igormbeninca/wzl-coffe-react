@@ -3,7 +3,10 @@ import { connect } from "react-redux";
 import { Actions as usersActions } from "../../redux/users";
 import { fake } from 'faker';
 import {
-  EuiLoadingSpinner
+  EuiLoadingSpinner,
+  EuiPanel,
+  EuiCard,
+  EuiPageTemplate,
 } from '@elastic/eui';
 
 import {AdminTable , NotFoundPage} from "../../components"
@@ -28,7 +31,24 @@ function AdminPage({fetchUsers, data, isLoading, error}){
     });
     
     return(
-       <AdminTable raw_data = {raw_data}/> 
+      // <EuiPanel paddingSize="s">
+      //   <EuiCard layout="horizontal" title="Users">
+      //     <AdminTable raw_data = {raw_data}/>
+      //   </EuiCard> 
+      // </EuiPanel>
+      <EuiPageTemplate 
+        restrictWidth={false}
+        pageHeader={{
+          tabs: [
+            { label: 'Users', isSelected: true },
+            {
+              label: 'Purchases',
+              onClick: null,
+            },
+          ],
+      }}>
+        <AdminTable raw_data = {raw_data}/>
+      </EuiPageTemplate>
     )
 }
 export default connect(

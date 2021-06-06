@@ -3,9 +3,8 @@ import React from "react";
 import { connect } from "react-redux";
 
 import {
-  Actions as authActions,
-  FETCHING_USER_FROM_TOKEN_SUCCESS
-} from "../../redux/auth";
+  Actions as passwordActions
+} from "../../redux/password";
 
 import { useNavigate } from "react-router-dom";
 
@@ -14,8 +13,8 @@ import {
   EuiFieldText,
   EuiForm,
   EuiFormRow,
-  EuiFieldPassword,
-  EuiSpacer
+  EuiSpacer,
+  EuiGlobalToastList
 } from "@elastic/eui";
 import { Link } from "react-router-dom";
 import validation from "../../utils/validation";
@@ -32,18 +31,23 @@ const ForgotPasswordLink = styled.span`
   font-size: 0.8rem;
 `;
 
+let addToastHandler;
+let toastId = 0;
 
-function LoginForm({
-  user,
-  authError,
+export function addToast() {
+  addToastHandler();
+}
+
+
+function ForgotPasswordForm({
+  error,
   isLoading,
-  isAuthenticated,
-  requestUserLogin
+  data,
+  postRecover
 }) {
   const [hasSubmitted, setHasSubmitted] = React.useState(false);
   const [form, setForm] = React.useState({
-    email: "",
-    password: ""
+    email: ""
   });
   const [errors, setErrors] = React.useState({});
 
@@ -61,13 +65,13 @@ function LoginForm({
     setForm((form) => ({ ...form, [label]: value }));
   };
 
-  const navigate = useNavigate();
-  // if the user is already authenticated, redirect them to the "/profile" page
-  React.useEffect(() => {
-    if (user?.email && isAuthenticated) {
-      navigate("/");
-    }
-  }, [user, navigate, isAuthenticated]);
+//   const navigate = useNavigate();
+//   // if the user is already passwordenticated, redirect them to the "/profile" page
+//   React.useEffect(() => {
+//     if (user?.email && isAuthenticated) {
+//       navigate("/");
+//     }
+//   }, [user, navigate, isAuthenticated]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -78,7 +82,7 @@ function LoginForm({
     if (!Object.values(form).every((value) => Boolean(value))) {
       setErrors((errors) => ({
         ...errors,
-        form: `You must fill out all fields.`
+        form: `Please enter an e-mail.`
       }));
       return;
     }
@@ -86,24 +90,36 @@ function LoginForm({
     //await requestUserLogin({ email: form.email, password: form.password });
 
     setHasSubmitted(true);
-    const action = await requestUserLogin({
-      email: form.email,
-      password: form.password
+    const action = await postRecover({
+      email: form.email
     });
     // reset the password form state if the login attempt is not successful
-    if (action.type !== FETCHING_USER_FROM_TOKEN_SUCCESS)
-      setForm((form) => ({ ...form, password: "" }));
+    if (action?.success && !isLoading){
+      addToast();
+      setForm((form) => ({ ...form, email: "" }));
+    }
   };
   const getFormErrors = () => {
     const formErrors = [];
-    if (authError && hasSubmitted && !isLoading) {
-      formErrors.push(`Invalid credentials. Please try again.`);
+    if (error && hasSubmitted && !isLoading) {
+      formErrors.push(`E-mail not found.`);
+      //formErrors.push(error)
     }
     if (errors.form) {
       formErrors.push(errors.form);
     }
     return formErrors;
   };
+    // Toast
+    const [toasts, setToasts] = React.useState([]);
+
+    addToastHandler = () => {
+        const toast = getToast();
+        setToasts(toasts.concat(toast));
+    };
+    const removeToast = (removedToast) => {
+        setToasts(toasts.filter((toast) => toast.id !== removedToast.id));
+    };
 
   return (
     <LoginFormWrapper>
@@ -128,25 +144,9 @@ function LoginForm({
             isInvalid={Boolean(errors.email)}
           />
         </EuiFormRow>
-
-        <EuiFormRow
-          label="Password"
-          helpText="Enter your password."
-          isInvalid={Boolean(errors.password)}
-          error={`Password must be at least 7 characters.`}
-        >
-          <EuiFieldPassword
-            placeholder="••••••••••••"
-            value={form.password}
-            onChange={(e) => handleInputChange("password", e.target.value)}
-            type="dual"
-            aria-label="Enter your password."
-            isInvalid={Boolean(errors.password)}
-          />
-        </EuiFormRow>
         <EuiSpacer />
         <EuiButton type="submit" fill isLoading={isLoading}>
-          Submit
+          Send
         </EuiButton>
       </EuiForm>
 
@@ -157,19 +157,40 @@ function LoginForm({
       </NeedAccountLink>
       <EuiSpacer size="m" />
       <ForgotPasswordLink>
-        Forgot your password? Recover it <Link to="/forgot">here</Link>.
+        Did you remember it? Sign in <Link to="/login">here</Link>.
       </ForgotPasswordLink>
+      <EuiGlobalToastList
+        toasts={toasts}
+        dismissToast={removeToast}
+        toastLifeTimeMs={6000}
+      />
     </LoginFormWrapper>
   );
 }
-const mapStateToProps = (state) => ({
-  authError: state.auth.error,
-  isLoading: state.auth.isLoading,
-  isAuthenticated: state.auth.isAuthenticated,
-  user: state.auth.user
-});
-const mapDispatchToProps = (dispatch) => ({
-  requestUserLogin: ({ email, password }) =>
-    dispatch(authActions.requestUserLogin({ email, password }))
-});
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
+export default connect(
+    (state) => ({
+      error: state.password.error,
+      isLoading: state.password.isLoading,
+      data :  state.password.data
+    }),
+    {
+      postRecover: passwordActions.postRecover
+    }
+  )(ForgotPasswordForm);
+
+const getToast = () => {
+const toasts = [
+    {
+    title: "The e-mail was sent successfully.",
+    iconType: "email",
+    color: "success",
+    text: <p>Thanks for your patience!</p>
+    }
+];
+
+return {
+    id: `toast${toastId++}`,
+    ...toasts[Math.floor(Math.random() * toasts.length)]
+};
+};
+  

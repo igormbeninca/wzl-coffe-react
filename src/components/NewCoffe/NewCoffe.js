@@ -1,23 +1,29 @@
-import React from "react";
+import React, { useState } from 'react';
 import { connect } from "react-redux";
+import { Actions as productActions } from "../../redux/product";
 import {
-  EuiPage,
-  EuiPageBody,
+  EuiCard,
+  EuiIcon,
   EuiPageContent,
   EuiPageContentBody,
-  EuiFlexGroup,
-  EuiFlexItem
+  EuiImage,
+  EuiFlexGrid,
+  EuiFlexItem,
+  EuiPanel,
+  EuiModal,
+  EuiModalBody,
+  EuiModalFooter,
+  EuiModalHeader,
+  EuiModalHeaderTitle,
+  EuiButton,
 } from "@elastic/eui";
 import coffe from "../../assets/img/coffe.svg";
+import healthy from "../../assets/img/107-healthy.svg";
 import styled from "styled-components";
 import NewCoffeForm from "./NewCoffeForm";
 
-const StyledEuiPage = styled(EuiPage)`
-  flex: 1;
-  padding-bottom: 15rem !important;
-`;
-
-const StyledEuiPageContent = styled(EuiPageContent)`
+// Styling //
+const StyledEuiImage = styled(EuiImage)`
   border-radius: 50% !important;
   max-width: 300px !important;
   max-height: 300px !important;
@@ -31,43 +37,98 @@ const StyledEuiPageContentBody = styled(EuiPageContentBody)`
   }
 `;
 
-const LandingTitle = styled.h1`
-  font-size: 3rem;
-  font-weight:normal;
-  margin: 2rem 0;
-`;
+function NewCoffe({ 
+  user,
+  isLoadingProducts,
+  data,
+  fetchProducts,
+  })
+  {
 
-// Styling //
+  React.useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
 
-function NewCoffe({ user }) {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
+  const [currentProductId, setProductId] = useState("1");
+  const closeModal = () => setIsModalVisible(false);
+  const showModal = () => setIsModalVisible(true);
+
+  let modal;
+
+  if (isModalVisible) {
+    modal = (
+      <EuiModal onClose={closeModal}>
+        <EuiModalHeader>
+          <EuiModalHeaderTitle>
+            <h1>{modalTitle}</h1>
+          </EuiModalHeaderTitle>
+        </EuiModalHeader>
+        <EuiModalBody>
+          <NewCoffeForm id_={currentProductId}/>
+        </EuiModalBody>
+
+        <EuiModalFooter>
+          <EuiButton 
+            color="danger" 
+            onClick={closeModal} 
+            fill
+            iconSide="left"
+            iconType="cross"
+          >
+            Close
+          </EuiButton>
+        </EuiModalFooter>
+      </EuiModal>
+    );
+  }
+  const handleOpenModal = (product_name, product_id) => {
+    setModalTitle(product_name);
+    setProductId(product_id);
+    showModal();
+  };
+  const cardNodes = data.map(function (item, index) {
+    return (
+      <EuiFlexItem key={index}>
+        <EuiCard
+          image={
+            <div>
+              <EuiImage
+                size="m"
+                alt="Product"
+                src={item.id%2?coffe:healthy}
+              />
+          </div>
+          }
+          textAlign="center"
+          title={`${item.name} - ${item.price} €`}
+          isDisabled={false}
+          description={"Product Description and Nutritional Informations"}
+          onClick={(e) => handleOpenModal(item.name, item.id)}
+        />
+      </EuiFlexItem>
+    );
+  });
   return (
-    <StyledEuiPage>
-      <EuiPageBody component="section">
-        <EuiPageContent verticalPosition="center" horizontalPosition="center">
-          <EuiPageContentBody>
-            <EuiFlexGroup direction="column" alignItems="center">
-              <EuiFlexItem>
-                <LandingTitle>{"Let's do it"}</LandingTitle>
-              </EuiFlexItem>
-              <EuiFlexItem>
-                <StyledEuiPageContent
-                  horizontalPosition="center"
-                  verticalPosition="center"
-                >
-                  <StyledEuiPageContentBody>
-                    <img src={coffe} alt="coffe" />
-                  </StyledEuiPageContentBody>
-                </StyledEuiPageContent>
-              </EuiFlexItem>
-              <EuiFlexItem>
-                <NewCoffeForm />
-              </EuiFlexItem>
-            </EuiFlexGroup>
-            </EuiPageContentBody>
-          </EuiPageContent>
-      </EuiPageBody>
-    </StyledEuiPage>
+    <EuiPanel paddingSize="s" hasShadow={false} hasBorder={false}> 
+      <EuiCard layout="horizontal" title="Products" >
+        <EuiFlexGrid columns={2} gutterSize="s">
+          {cardNodes}
+        </EuiFlexGrid>
+    </EuiCard>
+    {modal}
+  </EuiPanel>
   );
 }
 
-export default connect((state) => ({ user: state.auth.user }))(NewCoffe);
+export default connect(
+  (state) => ({ 
+    user: state.auth.user,
+    data: state.product.data,
+    isLoadingProducts: state.product.isLoading,
+  }),
+  {
+    fetchProducts: productActions.fetchProducts,
+  }
+  )(NewCoffe);

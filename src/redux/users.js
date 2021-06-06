@@ -38,6 +38,7 @@ Actions.fetchUsers = () => {
   return apiClient({
     url: `/users/`,
     method: `GET`,
+    adjustPath:true,
     types: {
       REQUEST: FETCH_USERS,
       SUCCESS: FETCH_USERS_SUCCESS,
