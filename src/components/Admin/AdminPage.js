@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { connect } from "react-redux";
 import { Actions as usersActions } from "../../redux/users";
-import { fake } from 'faker';
+//import { fake } from 'faker';
 import {
   EuiLoadingSpinner,
   EuiPanel,
