@@ -65,18 +65,18 @@ export default function authReducer(state = initialState.auth, action = {}) {
 }
 
 export const Actions = {};
-Actions.requestUserLogin = ({ email, password }) => {
+Actions.requestUserLogin = ({ rfid }) => {
   return async (dispatch) => {
     // set redux state to loading while we wait for server response
     dispatch({ type: REQUEST_LOGIN });
     // create the url-encoded form data
     const formData = new FormData();
-    formData.set("grant_type", "password");
-    formData.set("username", email);
-    formData.set("password", password);
+    //formData.set("grant_type", "password");
+    //formData.set("rfid", rfid);
+    //formData.set("password", password);
     // set the request headers
     const headers = {
-      "Content-Type": "application/x-www-form-urlencoded"
+      "Content-Type": "application/json"
     };
     try {
       // make the actual HTTP request to our API
@@ -84,11 +84,11 @@ Actions.requestUserLogin = ({ email, password }) => {
         method: `POST`,
         url :
         process.env.NODE_ENV === "production"
-          ? `https://daring-glider-313211.ey.r.appspot.com/api/v1/login/access-token`
-          : `http://192.168.0.185:8000/api/v1/login/access-token`,
+          ? `https://daring-glider-313211.ey.r.appspot.com/api/v1/login/access-token-rfid`
+          : `http://127.0.0.1:8000/api/v1/login/access-token-rfid`,
         // url: `https://daring-glider-313211.ey.r.appspot.com/api/v1/login/access-token`,
         // //url: `http://192.168.0.185:8000/api/v1/login/access-token`,
-        data: formData,
+        data: {rfid:rfid},
         headers
       });
       console.log(res);
