@@ -19,6 +19,7 @@ import {
 } from "@elastic/eui";
 import coffe from "../../assets/img/coffe.svg";
 import healthy from "../../assets/img/107-healthy.svg";
+import cupcake from "../../assets/img/day81-ice-cream.svg";
 import styled from "styled-components";
 import NewCoffeForm from "./NewCoffeForm";
 
@@ -36,6 +37,13 @@ const StyledEuiPageContentBody = styled(EuiPageContentBody)`
     border-radius: 50% !important;
   }
 `;
+
+const productImages = {
+  "hot" : coffe ,
+  "cold" : healthy,
+  "eat" : cupcake
+};
+
 
 function NewCoffe({ 
   user,
@@ -97,14 +105,14 @@ function NewCoffe({
               <EuiImage
                 size="m"
                 alt="Product"
-                src={item.id%2?coffe:healthy}
+                src= {productImages[item.category]?productImages[item.category]:coffe}
               />
           </div>
           }
           textAlign="center"
           title={`${item.name} - ${item.price} €`}
           isDisabled={false}
-          description={"Product Description and Nutritional Informations"}
+          description={item.description}
           onClick={(e) => handleOpenModal(item.name, item.id)}
         />
       </EuiFlexItem>
@@ -113,7 +121,7 @@ function NewCoffe({
   return (
     <EuiPanel paddingSize="s" hasShadow={false} hasBorder={false}> 
       <EuiCard layout="horizontal" title="Products" >
-        <EuiFlexGrid columns={2} gutterSize="s">
+        <EuiFlexGrid columns={4} gutterSize="s">
           {cardNodes}
         </EuiFlexGrid>
     </EuiCard>

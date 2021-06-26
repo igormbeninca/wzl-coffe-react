@@ -18,11 +18,11 @@ const CarouselWrapper = styled.div`
   }
 `;
 const StyledEuiPanel = styled(EuiPanel)`
-  width: 370px;
-  height: 370px;
+  width: 220px;
+  height: 220px;
   max-width: 370px !important;
   max-height: 370px !important;
-  border-radius: 50% !important;
+  border-radius: 100% !important;
 
   & > img {
     width: 100%;
@@ -60,7 +60,7 @@ export default function Carousel({ items = [], current, ...props }) {
                   ease: transitionEase
                 }}
               >
-                <StyledEuiPanel paddingSize="l">{item.content}</StyledEuiPanel>
+                <StyledEuiPanel paddingSize="s">{item.content}</StyledEuiPanel>
               </motion.div>
             </React.Fragment>
           ) : null

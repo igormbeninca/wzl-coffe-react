@@ -56,10 +56,10 @@ export default function LandingPage() {
         <EuiFlexGroup direction="column" alignItems="center">
           <EuiFlexItem>
             <EuiFlexGroup wrap>
-            <EuiFlexItem style={{ minWidth: 360 }}>
+            {/* <EuiFlexItem style={{ maxWidth: 370, maxHeight: 80 }}>
                 <LandingTitle>Kiosk Analytics</LandingTitle>
-              </EuiFlexItem>
-              <EuiFlexItem style={{ minWidth: 360 }}>
+              </EuiFlexItem> */}
+              <EuiFlexItem style={{ maxWidth: 440 }}>
                 <EuiIcon
                   type="https://www.wzl.rwth-aachen.de/global/show_picture.asp?id=aaaaaaaaabdlfcs"
                   color="primary"

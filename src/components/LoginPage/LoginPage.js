@@ -7,7 +7,9 @@ import {
   EuiPageHeader,
   EuiFlexGroup,
   EuiFlexItem,
-  EuiIcon
+  EuiIcon,
+  EuiTitle,
+  EuiPageHeaderSection
 } from "@elastic/eui";
 import { LoginForm } from "../../components";
 import styled from "styled-components";
@@ -34,11 +36,16 @@ export default function LoginPage() {
           <EuiPageContentBody>
             <EuiFlexGroup direction="column" alignItems="center">
               <EuiFlexItem>
-                <EuiIcon
+                {/* <EuiIcon
                   type="https://www.wzl.rwth-aachen.de/global/show_picture.asp?id=aaaaaaaaabdlfcs"
                   color="primary"
                   size="original"
-                />
+                /> */}
+                <EuiPageHeaderSection>
+                  <EuiTitle size="m">
+                    <h1>Log in</h1>
+                    </EuiTitle>
+                </EuiPageHeaderSection>
               </EuiFlexItem>
               <EuiFlexItem>
                 <LoginForm />
