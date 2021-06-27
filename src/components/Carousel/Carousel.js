@@ -18,8 +18,8 @@ const CarouselWrapper = styled.div`
   }
 `;
 const StyledEuiPanel = styled(EuiPanel)`
-  width: 220px;
-  height: 220px;
+  min-width: 220px;
+  min-height: 220px;
   max-width: 370px !important;
   max-height: 370px !important;
   border-radius: 100% !important;

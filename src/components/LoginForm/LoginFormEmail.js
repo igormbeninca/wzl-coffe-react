@@ -33,7 +33,7 @@ const ForgotPasswordLink = styled.span`
 `;
 
 
-function LoginForm({
+function LoginFormEmail({
   user,
   authError,
   isLoading,
@@ -42,7 +42,8 @@ function LoginForm({
 }) {
   const [hasSubmitted, setHasSubmitted] = React.useState(false);
   const [form, setForm] = React.useState({
-    rfid: "",
+    email: "",
+    password: ""
   });
   const [errors, setErrors] = React.useState({});
 
@@ -64,7 +65,7 @@ function LoginForm({
   // if the user is already authenticated, redirect them to the "/profile" page
   React.useEffect(() => {
     if (user?.email && isAuthenticated) {
-      navigate("/newcoffe");
+      navigate("/");
     }
   }, [user, navigate, isAuthenticated]);
 
@@ -86,11 +87,12 @@ function LoginForm({
 
     setHasSubmitted(true);
     const action = await requestUserLogin({
-      rfid: form.rfid,
+      email: form.email,
+      password: form.password
     });
     // reset the password form state if the login attempt is not successful
     if (action.type !== FETCHING_USER_FROM_TOKEN_SUCCESS)
-      setForm((form) => ({ ...form, rfid: "" }));
+      setForm((form) => ({ ...form, password: "" }));
   };
   const getFormErrors = () => {
     const formErrors = [];
@@ -112,25 +114,23 @@ function LoginForm({
         error={getFormErrors()}
       >
         <EuiFormRow
-          label="RFID"
-          helpText="Scan the RFID associated with your account."
-          isInvalid={Boolean(errors.rfid)}
-          error={`Please enter a valid RFID.`}
+          label="Email"
+          helpText="Enter the email associated with your account."
+          isInvalid={Boolean(errors.email)}
+          error={`Please enter a valid email.`}
         >
-          <EuiFieldPassword
-            //compressed={true}
+          <EuiFieldText
             autoFocus
-            ref={(input) => { this.nameInput = input; }} 
             icon="email"
-            placeholder="RFID"
-            value={form.rfid}
-            onChange={(e) => handleInputChange("rfid", e.target.value)}
-            aria-label="Enter the rfid associated with your account."
-            isInvalid={Boolean(errors.rfid)}
+            placeholder="user@wzl.rwth-aachen.de"
+            value={form.email}
+            onChange={(e) => handleInputChange("email", e.target.value)}
+            aria-label="Enter the email associated with your account."
+            isInvalid={Boolean(errors.email)}
           />
         </EuiFormRow>
 
-        {/* <EuiFormRow
+        <EuiFormRow
           label="Password"
           helpText="Enter your password."
           isInvalid={Boolean(errors.password)}
@@ -144,7 +144,7 @@ function LoginForm({
             aria-label="Enter your password."
             isInvalid={Boolean(errors.password)}
           />
-        </EuiFormRow> */}
+        </EuiFormRow>
         <EuiSpacer />
         <EuiButton type="submit" fill isLoading={isLoading}>
           Submit
@@ -156,10 +156,10 @@ function LoginForm({
       <NeedAccountLink>
         Need an account? Sign up <Link to="/registration">here</Link>.
       </NeedAccountLink>
-      {/* <EuiSpacer size="m" />
+      <EuiSpacer size="m" />
       <ForgotPasswordLink>
         Forgot your password? Recover it <Link to="/forgot">here</Link>.
-      </ForgotPasswordLink> */}
+      </ForgotPasswordLink>
     </LoginFormWrapper>
   );
 }
@@ -170,7 +170,7 @@ const mapStateToProps = (state) => ({
   user: state.auth.user
 });
 const mapDispatchToProps = (dispatch) => ({
-  requestUserLogin: ({ rfid }) =>
-    dispatch(authActions.requestUserLogin({ rfid }))
+  requestUserLogin: ({ email, password }) =>
+    dispatch(authActions.requestUserLoginEmail({ email, password }))
 });
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginFormEmail);
