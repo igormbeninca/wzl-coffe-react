@@ -1,16 +1,33 @@
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState, Fragment } from 'react';
 import {
-  EuiDataGrid,EuiLoadingSpinner
+  EuiDataGrid,
+  EuiFlexGroup,
+  EuiFlexItem, 
+  EuiPopover,
+  EuiPopoverTitle,
+  EuiButtonIcon,
+  EuiSpacer,
+  EuiPortal,
+  EuiFlyout,
+  EuiFlyoutBody,
+  EuiFlyoutHeader,
+  EuiTitle,
+  EuiDescriptionList,
+  EuiDescriptionListTitle,
+  EuiDescriptionListDescription,
+  EuiButton,
 } from '@elastic/eui';
+
+import { AdminUserForm } from "../../components";
 
 const columns = [
   {   
-    id:'account',
+    id:'id',
     defaultSortDirection: 'asc',
   },
   {
-    id: 'name',
+    id: 'full_name',
     displayAsText: 'Name',
     defaultSortDirection: 'asc',
   },
@@ -19,11 +36,86 @@ const columns = [
     defaultSortDirection: 'asc',
   },
   {
-    id: 'amount',
+    id: 'rfid',
+    isSortable: false,
+  },
+  {
+    id: 'is_active',
+    isSortable: false,
+  },
+  {
+    id: 'is_superuser',
+    isSortable: false,
+  },
+  {
+    id: 'saldo',
     isSortable: true,
-  }
+  },
 ];
+
 export default function AdminTable ({raw_data}) {
+
+  const FlyoutRowCell = (rowIndex) => {
+    let flyout;
+    const [isFlyoutOpen, setIsFlyoutOpen] = useState(false);
+    if (isFlyoutOpen) {
+      const rowData = raw_data[rowIndex.rowIndex];
+  
+      const details = Object.entries(rowData).map(([key, value]) => {
+        return (
+          <Fragment>
+            <EuiDescriptionListTitle>{key}</EuiDescriptionListTitle>
+            <EuiDescriptionListDescription>{value}</EuiDescriptionListDescription>
+          </Fragment>
+        );
+      });
+  
+      flyout = (
+        <EuiPortal>
+          <EuiFlyout size="s" ownFocus onClose={() => setIsFlyoutOpen(!isFlyoutOpen)}>
+            <EuiFlyoutHeader hasBorder>
+              <EuiTitle size="m">
+                <h2>{rowData.full_name}</h2>
+              </EuiTitle>
+            </EuiFlyoutHeader>
+            <EuiFlyoutBody>
+              <AdminUserForm current_user={rowData}/>
+              {/* <EuiDescriptionList>{details}</EuiDescriptionList> */}
+              {/* <EuiButton 
+                color="primary" 
+                fill
+                iconSide="left"
+                iconType="crosshairs"
+                >
+                Close
+              </EuiButton> */}
+            </EuiFlyoutBody>
+          </EuiFlyout>
+        </EuiPortal>
+      );
+    }
+  
+    return (
+      <Fragment>
+        <EuiButtonIcon
+          color="text"
+          iconType="eye"
+          iconSize="s"
+          aria-label="View details"
+          onClick={() => setIsFlyoutOpen(!isFlyoutOpen)}
+        />
+        {flyout}
+      </Fragment>
+    );
+  };
+  const leadingControlColumns = [
+    {
+      id: 'View',
+      width: 36,
+      headerCellRender: () => null,
+      rowCellRender: FlyoutRowCell,
+    }
+  ];
   // ** Pagination config
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
   const onChangeItemsPerPage = useCallback(
@@ -62,7 +154,7 @@ export default function AdminTable ({raw_data}) {
   const renderCellValue = useMemo(() => {
     return ({ rowIndex, columnId, setCellProps }) => {
       useEffect(() => {
-        if (columnId === 'amount') {
+        if (columnId === 'saldo') {
           if (raw_data.hasOwnProperty(rowIndex)) {
             const numeric = parseFloat(
               raw_data[rowIndex][columnId]
@@ -82,8 +174,8 @@ export default function AdminTable ({raw_data}) {
   }, []);
 
   const footerCellValues = {
-    amount: `Total: €${raw_data.reduce(
-        (acc, { amount }) => acc + Number(amount),
+    saldo: `Total: €${raw_data.reduce(
+        (acc, { saldo }) => acc + Number(saldo),
         0
       ).toFixed(2)}`,
   };
@@ -92,6 +184,8 @@ export default function AdminTable ({raw_data}) {
         aria-label="Data grid footer row demo"
         columns={columns}
         columnVisibility={{ visibleColumns, setVisibleColumns }}
+        leadingControlColumns={leadingControlColumns}
+        //trailingControlColumns={trailingControlColumns}
         rowCount={raw_data.length}
         renderCellValue={renderCellValue}
         inMemory={{ level: 'sorting' }}

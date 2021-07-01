@@ -2,23 +2,16 @@ import React from "react";
 import { connect } from "react-redux";
 import { Actions as purchaseActions } from "../../redux/purchase";
 import { Actions as productActions } from "../../redux/product";
+import { Actions as authActions } from "../../redux/auth";
 import { useNavigate } from "react-router-dom";
 import { htmlIdGenerator } from '@elastic/eui/lib/services';
 import {
   EuiButton,
   EuiForm, 
   EuiFormRow,
-  EuiGlobalToastList,
   EuiSuperSelect,
   EuiRange,
 } from "@elastic/eui";
-
-let addToastHandler;
-let toastId = 0;
-
-export function addToast() {
-  addToastHandler();
-}
 
 function NewCoffeForm({
   isLoading,
@@ -26,33 +19,17 @@ function NewCoffeForm({
   data,
   fetchProducts,
   id_,
+  logUserOut,
   newCoffe = async () => console.log("Added new purchase")
 }) {
   // React.useEffect(() => {
   //   fetchProducts();
   // }, [fetchProducts]);
-
   const [form, setForm] = React.useState({
     id_product: id_,
     quantity: "1",
   });
 
-  // const products_option = [];
-  // data.forEach(element => {
-  //   products_option.push({
-  //     value: "" + element.id, 
-  //     inputDisplay: element.name + " - " + element.price + " €",})
-  // });
-  // Toast
-  const [toasts, setToasts] = React.useState([]);
-
-  addToastHandler = () => {
-    const toast = getToast();
-    setToasts(toasts.concat(toast));
-  };
-  const removeToast = (removedToast) => {
-    setToasts(toasts.filter((toast) => toast.id !== removedToast.id));
-  };
   // Rest
   const navigate = useNavigate();
 
@@ -61,10 +38,12 @@ function NewCoffeForm({
     const res = await newCoffe(form);
     if (res?.success) {
       //const purchase_id = res.data?.id;
-      navigate(`/coffeanalytics/`);
+      logUserOut();
+      navigate("/login");
+      // navigate(`/coffeanalytics/`);
       // redirect user to new cleaning job post
     } else {
-      addToast();
+      return;
     }
   };
   // Range slider
@@ -114,11 +93,6 @@ function NewCoffeForm({
             Buy
           </EuiButton>
       </EuiForm>
-      <EuiGlobalToastList
-        toasts={toasts}
-        dismissToast={removeToast}
-        toastLifeTimeMs={6000}
-      />
     </>
   );
 }
@@ -133,21 +107,8 @@ export default connect(
   {
     newCoffe: purchaseActions.postPuchase,
     fetchProducts: productActions.fetchProducts,
+    logUserOut: authActions.logUserOut,
   }
 )(NewCoffeForm);
 
-const getToast = () => {
-  const toasts = [
-    {
-      title: "Could not concluded purchase!",
-      iconType: "alert",
-      color: "danger",
-      text: <p>Thanks for your patience!</p>
-    }
-  ];
 
-  return {
-    id: `toast${toastId++}`,
-    ...toasts[Math.floor(Math.random() * toasts.length)]
-  };
-};

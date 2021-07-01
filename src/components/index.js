@@ -16,6 +16,7 @@ export { default as CoffeAnalytics } from "./CoffeAnalytics/CoffeAnalytics";
 export { default as NewCoffe } from "./NewCoffe/NewCoffe";
 export { default as AdminPage } from "./Admin/AdminPage";
 export {default as AdminTable } from "./Admin/AdminTable";
+export {default as AdminUserForm} from "./Admin/AdminUserForm";
 export {default as ForgotPasswordPage} from "./ForgotPasswordPage/ForgotPasswordPage";
 export {default as ForgotPasswordForm} from "./ForgotPasswordPage/ForgotPasswordForm";
 export {default as ResetPasswordPage} from "./ResetPasswordPage/ResetPasswordPage";

@@ -5,6 +5,7 @@ import {
   EuiCard,
   EuiIcon,
   EuiPageContent,
+  EuiGlobalToastList,
   EuiPageContentBody,
   EuiImage,
   EuiFlexGrid,
@@ -44,18 +45,21 @@ const productImages = {
   "eat" : cupcake
 };
 
+let addToastHandler;
+let toastId = 0;
+
+export function addToast() {
+  addToastHandler();
+}
 
 function NewCoffe({ 
   user,
   isLoadingProducts,
+  errorPurchase,
   data,
   fetchProducts,
   })
   {
-
-  React.useEffect(() => {
-    fetchProducts();
-  }, [fetchProducts]);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalTitle, setModalTitle] = useState("");
@@ -63,8 +67,15 @@ function NewCoffe({
   const closeModal = () => setIsModalVisible(false);
   const showModal = () => setIsModalVisible(true);
 
-  let modal;
+  React.useEffect(() => {
+    fetchProducts();
+    if(errorPurchase && isModalVisible){
+      addToast();
+      closeModal();
+    }
+  }, [fetchProducts, errorPurchase]);
 
+  let modal;
   if (isModalVisible) {
     modal = (
       <EuiModal onClose={closeModal}>
@@ -118,8 +129,26 @@ function NewCoffe({
       </EuiFlexItem>
     );
   });
+
+  // Toast
+  const [toasts, setToasts] = React.useState([]);
+
+  addToastHandler = () => {
+    const toast = getToast();
+    setToasts(toasts.concat(toast));
+  };
+  const removeToast = (removedToast) => {
+    setToasts(toasts.filter((toast) => toast.id !== removedToast.id));
+  };
+
+
   return (
     <EuiPanel paddingSize="s" hasShadow={false} hasBorder={false}> 
+      <EuiGlobalToastList
+        toasts={toasts}
+        dismissToast={removeToast}
+        toastLifeTimeMs={6000}
+      />
       <EuiCard layout="horizontal" title="Products" >
         <EuiFlexGrid columns={4} gutterSize="s">
           {cardNodes}
@@ -130,13 +159,31 @@ function NewCoffe({
   );
 }
 
+
 export default connect(
   (state) => ({ 
     user: state.auth.user,
     data: state.product.data,
     isLoadingProducts: state.product.isLoading,
+    errorPurchase : state.purchase.error
   }),
   {
     fetchProducts: productActions.fetchProducts,
   }
   )(NewCoffe);
+
+const getToast = () => {
+  const toasts = [
+    {
+      title: "Could not concluded purchase! Please log in again",
+      iconType: "alert",
+      color: "danger",
+      text: <p>Thanks for your patience!</p>
+    }
+  ];
+
+  return {
+    id: `toast${toastId++}`,
+    ...toasts[Math.floor(Math.random() * toasts.length)]
+  };
+};

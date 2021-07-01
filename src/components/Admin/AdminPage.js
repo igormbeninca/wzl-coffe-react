@@ -23,10 +23,13 @@ function AdminPage({fetchUsers, data, isLoading, error}){
     const raw_data = [];
     data.forEach(element => {
     raw_data.push({
-        account: element.id,
-        name: element.full_name,
+        id: element.id,
+        full_name: element.full_name,
         email: element.email,
-        amount: parseFloat(element.saldo).toFixed(2),
+        saldo: parseFloat(element.saldo).toFixed(2),
+        rfid : element.rfid,
+        is_active: String(element.is_active),
+        is_superuser:String(element.is_superuser)
     })
     });
     
