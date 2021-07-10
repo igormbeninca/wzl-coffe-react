@@ -34,7 +34,7 @@ const ticks = [
   //{label: 'Year', value: 525600}
 ]
 function LinePlot({ isLoading, data}) {
-  if (isLoading) return <EuiLoadingSpinner size="xl" />;
+  // if (isLoading) return <EuiLoadingSpinner size="xl" />;
 
   const [value, setValue] = React.useState('1440');
   const onChange = (e) => {

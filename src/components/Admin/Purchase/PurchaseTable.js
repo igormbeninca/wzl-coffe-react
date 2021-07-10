@@ -19,41 +19,40 @@ import {
   EuiButton,
 } from '@elastic/eui';
 
-import { AdminUserForm } from "../../components";
-
 const columns = [
   {   
     id:'id',
     defaultSortDirection: 'asc',
+    initialWidth: 60,
+    isResizable: false,
   },
   {
-    id: 'full_name',
-    displayAsText: 'Name',
+    id: 'id_user',
+    displayAsText: 'User ID',
+    defaultSortDirection: 'asc',
+    initialWidth: 80,
+    isResizable: false,
+  },
+  {
+    id: 'name',
+    displayAsText: 'Product',
     defaultSortDirection: 'asc',
   },
   {
-    id: 'email',
-    defaultSortDirection: 'asc',
+    id: 'time_stamp',
+    defaultSortDirection: 'desc',
   },
   {
-    id: 'rfid',
-    isSortable: false,
+    id: 'quantity',
+    isSortable: true,
   },
   {
-    id: 'is_active',
-    isSortable: false,
-  },
-  {
-    id: 'is_superuser',
-    isSortable: false,
-  },
-  {
-    id: 'saldo',
+    id: 'total',
     isSortable: true,
   },
 ];
 
-export default function AdminTable ({raw_data}) {
+export default function PurchaseTable ({raw_data}) {
 
   const FlyoutRowCell = (rowIndex) => {
     let flyout;
@@ -75,12 +74,11 @@ export default function AdminTable ({raw_data}) {
           <EuiFlyout size="s" ownFocus onClose={() => setIsFlyoutOpen(!isFlyoutOpen)}>
             <EuiFlyoutHeader hasBorder>
               <EuiTitle size="m">
-                <h2>{rowData.full_name}</h2>
+                <h2>{rowData.id}</h2>
               </EuiTitle>
             </EuiFlyoutHeader>
             <EuiFlyoutBody>
-              <AdminUserForm current_user={rowData}/>
-              {/* <EuiDescriptionList>{details}</EuiDescriptionList> */}
+              <EuiDescriptionList>{details}</EuiDescriptionList>
               {/* <EuiButton 
                 color="primary" 
                 fill
@@ -143,7 +141,7 @@ export default function AdminTable ({raw_data}) {
     []
   );
   // ** Sorting config
-  const [sortingColumns, setSortingColumns] = useState([{ id: 'id', direction: 'asc' }]);
+  const [sortingColumns, setSortingColumns] = useState([{ id: 'time_stamp', direction: 'desc' }]);
   const onSort = useCallback(
     (sortingColumns) => {
       setSortingColumns(sortingColumns);
@@ -154,7 +152,7 @@ export default function AdminTable ({raw_data}) {
   const renderCellValue = useMemo(() => {
     return ({ rowIndex, columnId, setCellProps }) => {
       useEffect(() => {
-        if (columnId === 'saldo') {
+        if (columnId === 'total') {
           if (raw_data.hasOwnProperty(rowIndex)) {
             const numeric = parseFloat(
               raw_data[rowIndex][columnId]
@@ -174,8 +172,8 @@ export default function AdminTable ({raw_data}) {
   }, []);
 
   const footerCellValues = {
-    saldo: `Total: €${raw_data.reduce(
-        (acc, { saldo }) => acc + Number(saldo),
+    total: `Total: €${raw_data.reduce(
+        (acc, { total }) => acc + Number(total),
         0
       ).toFixed(2)}`,
   };

@@ -17,8 +17,7 @@ export default {
   purchase: {
     isLoading: false,
     error: null,
-    data: [{}],
-    user: {}
+    data: [],
   },
   machines: {
     isLoading: false,
@@ -28,7 +27,7 @@ export default {
   users: {
     isLoading: false,
     error: null,
-    data: [{}],
+    data: [],
   },
   password:{
     isLoading: false,

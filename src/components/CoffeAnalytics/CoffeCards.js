@@ -23,7 +23,7 @@ function CoffeCards({ user, isLoading, data, fetchPurchases, fetchUser }) {
     fetchUser();
   }, [fetchUser]);
 
-  if (isLoading) return <EuiLoadingSpinner size="xl" />;
+  //if (isLoading) return <EuiLoadingSpinner size="xl" />;
   var saldo = user.saldo.toFixed(2);
   var avg_coffe_arr = [];
   var total_product = 0;
