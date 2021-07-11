@@ -52,7 +52,7 @@ function CoffeCards({ user, isLoading, data, fetchPurchases, fetchUser }) {
       // icon={<EuiIcon size="original" type={"bolt"} />}
     >
         <ProductDropDownMenu/>
-        <EuiSpacer size = "s"/>
+        {/* <EuiSpacer size = "s"/>
         <EuiFlexGrid columns={3}>
           <EuiFlexItem>
             <EuiToolTip
@@ -86,7 +86,7 @@ function CoffeCards({ user, isLoading, data, fetchPurchases, fetchUser }) {
               description={saldo + " €"}
             />
           </EuiFlexItem>
-        </EuiFlexGrid>
+        </EuiFlexGrid> */}
     </EuiCard>
   );
 }

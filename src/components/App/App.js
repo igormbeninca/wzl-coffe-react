@@ -7,7 +7,7 @@ import {
   ProfilePage,
   NotFoundPage,
   RegistrationPage,
-  CoffeAnalytics,
+  PurchaseAnalytics,
   NewCoffe,
   Layout,
   AdminPage,
@@ -25,7 +25,7 @@ export default function App() {
           <Route path="/" element={<LandingPage />} />
           <Route
             path="/coffeanalytics"
-            element={<ProtectedRoute component={CoffeAnalytics} />}
+            element={<ProtectedRoute component={PurchaseAnalytics} />}
           />
           <Route path="*" element={<LandingPage />} />
           <Route
