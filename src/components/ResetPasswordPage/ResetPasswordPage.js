@@ -10,7 +10,7 @@ import {
   EuiFlexGroup,
   EuiFlexItem,
 } from "@elastic/eui";
-import { RegistrationForm } from "../../components";
+import { ResetPasswordForm } from "../../components";
 import styled from "styled-components";
 
 const StyledEuiPage = styled(EuiPage)`
@@ -27,7 +27,7 @@ const StyledEuiPageHeader = styled(EuiPageHeader)`
   }
 `;
 
-export default function RegistrationPage() {
+export default function ResetPasswordPage() {
   return (
     <StyledEuiPage>
       <EuiPageBody component="section">
@@ -35,14 +35,14 @@ export default function RegistrationPage() {
           <EuiPageContentBody>
           <EuiFlexGroup direction="column" alignItems="center">
               <EuiFlexItem>
-                <EuiPageHeaderSection>
-                <EuiTitle size="m">
-                    <h1>Sign up</h1>
-                    </EuiTitle>
-                </EuiPageHeaderSection>
+                    <EuiPageHeaderSection>
+                    <EuiTitle size="m">
+                        <h1>Reset password</h1>
+                        </EuiTitle>
+                    </EuiPageHeaderSection>
               </EuiFlexItem>
               <EuiFlexItem>
-                <RegistrationForm />
+                <ResetPasswordForm />
               </EuiFlexItem>
           </EuiFlexGroup>
           </EuiPageContentBody>

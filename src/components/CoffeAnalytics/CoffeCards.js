@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Actions as purchaseActions } from "../../redux/purchase";
 import { Actions as authActions } from "../../redux/auth";
 
+import ProductDropDownMenu from "./ProductDropDownMenu"
 import DatePicker from "./DatePicker"
 
 import {
@@ -10,8 +11,10 @@ import {
   EuiCard,
   EuiIcon,
   EuiFlexGroup,
+  EuiFlexGrid,
   EuiSpacer,
-  EuiFlexItem
+  EuiFlexItem,
+  EuiToolTip
 } from "@elastic/eui";
 
 function CoffeCards({ user, isLoading, data, fetchPurchases, fetchUser }) {
@@ -20,26 +23,23 @@ function CoffeCards({ user, isLoading, data, fetchPurchases, fetchUser }) {
     fetchUser();
   }, [fetchUser]);
 
-  if (isLoading) return <EuiLoadingSpinner size="xl" />;
-  var size = Object.keys(data).length;
-  var saldo = user.saldo;
-  var avg_coffe_arr = new Array();
-  var avg_coffe = 0;
+  //if (isLoading) return <EuiLoadingSpinner size="xl" />;
+  var saldo = user.saldo.toFixed(2);
+  var avg_coffe_arr = [];
+  var total_product = 0;
   data.forEach((element, index) => {
     if (index != 0) {
       if (
         Date.parse(element.time_stamp) -
-          avg_coffe_arr[avg_coffe_arr.length - 1][0] >
+          avg_coffe_arr[avg_coffe_arr.length - 1] >
         8.64e7
       ) {
-        avg_coffe_arr.push([Date.parse(element.time_stamp), 1]);
-      } else {
-        avg_coffe_arr[avg_coffe_arr.length - 1][1] += 1;
-      }
+        avg_coffe_arr.push(Date.parse(element.time_stamp));
+      } 
     } else {
-      avg_coffe_arr.push([Date.parse(element.time_stamp), 1]);
+      avg_coffe_arr.push(Date.parse(element.time_stamp));
     }
-    avg_coffe += 1;
+    total_product += element.quantity;
   });
   // if (avg_coffe_arr.length) {
   //   console.log(avg_coffe/ avg_coffe_arr.length);
@@ -51,35 +51,42 @@ function CoffeCards({ user, isLoading, data, fetchPurchases, fetchUser }) {
       title="Avg. Statistics"
       // icon={<EuiIcon size="original" type={"bolt"} />}
     >
-      <EuiFlexGroup gutterSize="s" direction="column">
-        <EuiFlexItem>
-          <DatePicker/> 
-        </EuiFlexItem>
-        <EuiSpacer size = "s"/>
-        <EuiFlexGroup>
+        <ProductDropDownMenu/>
+        {/* <EuiSpacer size = "s"/>
+        <EuiFlexGrid columns={3}>
           <EuiFlexItem>
-            <EuiCard
-              icon={<EuiIcon size="xxl" type="monitoringApp" />}
-              title="Total Coffees"
-              description={size + " Cups"}
-            />
+            <EuiToolTip
+              position="bottom"
+              content={
+              <p>
+              Brasilien 7 x 1 Deutschland
+              </p>
+              }>
+              <EuiCard
+                layout="horizontal"
+                icon={<EuiIcon size="xxl" type="globe" />}
+                title="Total"
+                description={total_product===0? "0" :  total_product}
+              />
+              </EuiToolTip>
           </EuiFlexItem>
           <EuiFlexItem>
             <EuiCard
+              layout="horizontal"
               icon={<EuiIcon size="xxl" type="stats" />}
-              title="Avg. Coffees per Day"
-              description={Math.round(avg_coffe/avg_coffe_arr.length,2) + " Cups"}
+              title="Avg. per Day"
+              description={total_product===0? "0" : Math.round(total_product/avg_coffe_arr.length,2)}
             />
           </EuiFlexItem>
           <EuiFlexItem>
             <EuiCard
+              layout="horizontal"
               icon={<EuiIcon size="xxl" type="currency" />}
               title="Saldo"
               description={saldo + " €"}
             />
           </EuiFlexItem>
-        </EuiFlexGroup>
-      </EuiFlexGroup>
+        </EuiFlexGrid> */}
     </EuiCard>
   );
 }

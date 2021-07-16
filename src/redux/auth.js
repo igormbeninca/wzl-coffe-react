@@ -65,7 +65,49 @@ export default function authReducer(state = initialState.auth, action = {}) {
 }
 
 export const Actions = {};
-Actions.requestUserLogin = ({ email, password }) => {
+Actions.requestUserLogin = ({ rfid }) => {
+  return async (dispatch) => {
+    // set redux state to loading while we wait for server response
+    dispatch({ type: REQUEST_LOGIN });
+    // create the url-encoded form data
+    const formData = new FormData();
+    //formData.set("grant_type", "password");
+    //formData.set("rfid", rfid);
+    //formData.set("password", password);
+    // set the request headers
+    const headers = {
+      "Content-Type": "application/json"
+    };
+    try {
+      // make the actual HTTP request to our API
+      const res = await axios({
+        method: `POST`,
+        url :
+        process.env.NODE_ENV === "production"
+          ? `https://daring-glider-313211.ey.r.appspot.com/api/v1/login/access-token-rfid`
+          : `http://127.0.0.1:8000/api/v1/login/access-token-rfid`,
+        // url: `https://daring-glider-313211.ey.r.appspot.com/api/v1/login/access-token`,
+        // //url: `http://192.168.0.185:8000/api/v1/login/access-token`,
+        data: {rfid:rfid},
+        headers
+      });
+      console.log(res);
+      // stash the access_token our server returns
+      const access_token = res.data.access_token;
+      localStorage.setItem("access_token", access_token);
+      // dispatch the success action
+      dispatch({ type: REQUEST_LOGIN_SUCCESS });
+      return dispatch(Actions.fetchUserFromToken(access_token));
+    } catch (error) {
+      //console.log(error);
+      // dispatch the failure action
+      return dispatch({ type: REQUEST_LOGIN_FAILURE, error: error.message });
+    }
+  };
+};
+
+
+Actions.requestUserLoginEmail = ({ email, password }) => {
   return async (dispatch) => {
     // set redux state to loading while we wait for server response
     dispatch({ type: REQUEST_LOGIN });
@@ -82,7 +124,12 @@ Actions.requestUserLogin = ({ email, password }) => {
       // make the actual HTTP request to our API
       const res = await axios({
         method: `POST`,
-        url: `https://daring-glider-313211.ey.r.appspot.com/api/v1/login/access-token`,
+        url :
+        process.env.NODE_ENV === "production"
+          ? `https://daring-glider-313211.ey.r.appspot.com/api/v1/login/access-token`
+          : `http://127.0.0.1:8000/api/v1/login/access-token`,
+        // url: `https://daring-glider-313211.ey.r.appspot.com/api/v1/login/access-token`,
+        // //url: `http://192.168.0.185:8000/api/v1/login/access-token`,
         data: formData,
         headers
       });
@@ -94,17 +141,22 @@ Actions.requestUserLogin = ({ email, password }) => {
       dispatch({ type: REQUEST_LOGIN_SUCCESS });
       return dispatch(Actions.fetchUserFromToken(access_token));
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       // dispatch the failure action
       return dispatch({ type: REQUEST_LOGIN_FAILURE, error: error.message });
     }
   };
 };
 
+
+
+
+
 Actions.fetchUserFromToken = () => {
   return apiClient({
-    url: `/users/me/`,
+    url: `/users/me`,
     method: `GET`,
+    adjustPath:false,
     types: {
       REQUEST: FETCHING_USER_FROM_TOKEN,
       SUCCESS: FETCHING_USER_FROM_TOKEN_SUCCESS,

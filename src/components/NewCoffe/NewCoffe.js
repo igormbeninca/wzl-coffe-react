@@ -1,69 +1,189 @@
-import React from "react";
+import React, { useState } from 'react';
 import { connect } from "react-redux";
+import { Actions as productActions } from "../../redux/product";
 import {
-  EuiPage,
-  EuiPageBody,
+  EuiCard,
+  EuiIcon,
   EuiPageContent,
+  EuiGlobalToastList,
   EuiPageContentBody,
-  EuiFlexGroup,
-  EuiFlexItem
+  EuiImage,
+  EuiFlexGrid,
+  EuiFlexItem,
+  EuiPanel,
+  EuiModal,
+  EuiModalBody,
+  EuiModalFooter,
+  EuiModalHeader,
+  EuiModalHeaderTitle,
+  EuiButton,
 } from "@elastic/eui";
 import coffe from "../../assets/img/coffe.svg";
+import healthy from "../../assets/img/107-healthy.svg";
+import cupcake from "../../assets/img/day81-ice-cream.svg";
 import styled from "styled-components";
 import NewCoffeForm from "./NewCoffeForm";
 
-const StyledEuiPage = styled(EuiPage)`
-  flex: 1;
-  padding-bottom: 15rem !important;
-`;
-
-const StyledEuiPageContent = styled(EuiPageContent)`
+// Styling //
+const StyledEuiImage = styled(EuiImage)`
   border-radius: 50% !important;
-  max-width: 370px !important;
-  max-height: 370px !important;
+  max-width: 300px !important;
+  max-height: 300px !important;
 `;
 const StyledEuiPageContentBody = styled(EuiPageContentBody)`
-  max-width: 370px !important;
-  max-height: 370px !important;
+  max-width: 300px !important;
+  max-height: 300px !important;
   & > img {
     width: 100% !important;
     border-radius: 50% !important;
   }
 `;
 
-const LandingTitle = styled.h1`
-  font-size: 3rem;
-  font-weight:normal;
-  margin: 2rem 0;
-`;
+const productImages = {
+  "hot" : coffe ,
+  "cold" : healthy,
+  "eat" : cupcake
+};
 
-// Styling //
+let addToastHandler;
+let toastId = 0;
 
-function NewCoffe({ user }) {
+export function addToast() {
+  addToastHandler();
+}
+
+function NewCoffe({ 
+  user,
+  isLoadingProducts,
+  errorPurchase,
+  data,
+  fetchProducts,
+  })
+  {
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
+  const [currentProductId, setProductId] = useState("1");
+  const closeModal = () => setIsModalVisible(false);
+  const showModal = () => setIsModalVisible(true);
+
+  React.useEffect(() => {
+    fetchProducts();
+    if(errorPurchase && isModalVisible){
+      addToast();
+      closeModal();
+    }
+  }, [fetchProducts, errorPurchase]);
+
+  let modal;
+  if (isModalVisible) {
+    modal = (
+      <EuiModal onClose={closeModal}>
+        <EuiModalHeader>
+          <EuiModalHeaderTitle>
+            <h1>{modalTitle}</h1>
+          </EuiModalHeaderTitle>
+        </EuiModalHeader>
+        <EuiModalBody>
+          <NewCoffeForm id_={currentProductId}/>
+        </EuiModalBody>
+
+        <EuiModalFooter>
+          <EuiButton 
+            color="danger" 
+            onClick={closeModal} 
+            fill
+            iconSide="left"
+            iconType="cross"
+          >
+            Close
+          </EuiButton>
+        </EuiModalFooter>
+      </EuiModal>
+    );
+  }
+  const handleOpenModal = (product_name, product_id) => {
+    setModalTitle(product_name);
+    setProductId(product_id);
+    showModal();
+  };
+  const cardNodes = data.map(function (item, index) {
+    return (
+      <EuiFlexItem key={index}>
+        <EuiCard
+          image={
+            <div>
+              <EuiImage
+                size="m"
+                alt="Product"
+                src= {productImages[item.category]?productImages[item.category]:coffe}
+              />
+          </div>
+          }
+          textAlign="center"
+          title={`${item.name} - ${item.price} €`}
+          isDisabled={false}
+          description={item.description}
+          onClick={(e) => handleOpenModal(item.name, item.id)}
+        />
+      </EuiFlexItem>
+    );
+  });
+
+  // Toast
+  const [toasts, setToasts] = React.useState([]);
+
+  addToastHandler = () => {
+    const toast = getToast();
+    setToasts(toasts.concat(toast));
+  };
+  const removeToast = (removedToast) => {
+    setToasts(toasts.filter((toast) => toast.id !== removedToast.id));
+  };
+
+
   return (
-    <StyledEuiPage>
-      <EuiPageBody component="section">
-        <EuiFlexGroup direction="column" alignItems="center">
-          <EuiFlexItem>
-            <LandingTitle>{"New Coffee?"}</LandingTitle>
-          </EuiFlexItem>
-          <EuiFlexItem>
-            <StyledEuiPageContent
-              horizontalPosition="center"
-              verticalPosition="center"
-            >
-              <StyledEuiPageContentBody>
-                <img src={coffe} alt="coffe" />
-              </StyledEuiPageContentBody>
-            </StyledEuiPageContent>
-          </EuiFlexItem>
-          <EuiFlexItem>
-            <NewCoffeForm />
-          </EuiFlexItem>
-        </EuiFlexGroup>
-      </EuiPageBody>
-    </StyledEuiPage>
+    <EuiPanel paddingSize="s" hasShadow={false} hasBorder={false}> 
+      <EuiGlobalToastList
+        toasts={toasts}
+        dismissToast={removeToast}
+        toastLifeTimeMs={6000}
+      />
+      <EuiCard layout="horizontal" title="Products" >
+        <EuiFlexGrid columns={4} gutterSize="s">
+          {cardNodes}
+        </EuiFlexGrid>
+    </EuiCard>
+    {modal}
+  </EuiPanel>
   );
 }
 
-export default connect((state) => ({ user: state.auth.user }))(NewCoffe);
+
+export default connect(
+  (state) => ({ 
+    user: state.auth.user,
+    data: state.product.data,
+    isLoadingProducts: state.product.isLoading,
+    errorPurchase : state.purchase.error
+  }),
+  {
+    fetchProducts: productActions.fetchProducts,
+  }
+  )(NewCoffe);
+
+const getToast = () => {
+  const toasts = [
+    {
+      title: "Could not concluded purchase! Please log in again",
+      iconType: "alert",
+      color: "danger",
+      text: <p>Thanks for your patience!</p>
+    }
+  ];
+
+  return {
+    id: `toast${toastId++}`,
+    ...toasts[Math.floor(Math.random() * toasts.length)]
+  };
+};

@@ -39,9 +39,10 @@ function RegistrationForm({
     username: "",
     email: "",
     password: "",
-    passwordConfirm: ""
+    passwordConfirm: "",
+    rfid:""
   });
-  const [agreedToTerms, setAgreedToTerms] = React.useState(false);
+  const [agreedToTerms, setAgreedToTerms] = React.useState(true);
   const [errors, setErrors] = React.useState({});
 
   const validateInput = (label, value) => {
@@ -108,7 +109,8 @@ function RegistrationForm({
     const action = await createUser({
       email: form.email,
       password: form.password,
-      full_name: form.username
+      full_name: form.username,
+      rfid:form.rfid
     });
     if (action.type !== CREATE_USER_SUCCESS)
       setForm((form) => ({ ...form, password: "", passwordConfirm: "" }));
@@ -141,6 +143,7 @@ function RegistrationForm({
           error={`Please enter a valid email.`}
         >
           <EuiFieldText
+            autoFocus
             icon="email"
             placeholder="user@wzl.rwth-aachen.com"
             value={form.email}
@@ -196,6 +199,23 @@ function RegistrationForm({
             isInvalid={Boolean(errors.passwordConfirm)}
           />
         </EuiFormRow>
+
+        <EuiFormRow
+          label="RFID"
+          helpText="Scan the RFID associated with your account."
+          isInvalid={Boolean(errors.rfid)}
+          error={`Please enter a valid RFID.`}
+        >
+          <EuiFieldPassword
+            icon="email"
+            placeholder="RFID"
+            value={form.rfid}
+            onChange={(e) => handleInputChange("rfid", e.target.value)}
+            aria-label="Enter the rfid associated with your account."
+            isInvalid={Boolean(errors.rfid)}
+          />
+        </EuiFormRow>
+
         <EuiSpacer />
         <EuiCheckbox
           id={htmlIdGenerator()()}
@@ -205,7 +225,7 @@ function RegistrationForm({
         />
         <EuiSpacer />
         <EuiButton type="submit" fill>
-          Sign Up
+          Sign up
         </EuiButton>
       </EuiForm>
 

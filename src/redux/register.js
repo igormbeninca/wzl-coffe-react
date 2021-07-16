@@ -64,17 +64,18 @@ export const Actions = {};
 //   };
 // };
 
-Actions.createUser = ({ email, password, full_name }) => {
+Actions.createUser = ({ email, password, full_name, rfid }) => {
   return apiClient({
-    url: `/users/open/`,
+    url: `/users/open`,
     method: `POST`,
+    adjustPath: false,
     types: {
       REQUEST: CREATE_USER,
       SUCCESS: CREATE_USER_SUCCESS,
       FAILURE: CREATE_USER_FAILURE
     },
     options: {
-      data: { email: email, password: password, full_name: full_name },
+      data: { email: email, password: password, full_name: full_name, rfid:rfid },
       params: {}
     }
   });

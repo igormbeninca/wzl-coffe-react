@@ -56,15 +56,15 @@ export default function LandingPage() {
         <EuiFlexGroup direction="column" alignItems="center">
           <EuiFlexItem>
             <EuiFlexGroup wrap>
-              <EuiFlexItem style={{ minWidth: 360 }}>
+            <EuiFlexItem>
+                <LandingTitle>Kiosk Analytics</LandingTitle>
+              </EuiFlexItem>
+              <EuiFlexItem style={{ maxWidth: 440 }}>
                 <EuiIcon
                   type="https://www.wzl.rwth-aachen.de/global/show_picture.asp?id=aaaaaaaaabdlfcs"
                   color="primary"
-                  size="orignal"
+                  size="original"
                 />
-              </EuiFlexItem>
-              <EuiFlexItem style={{ minWidth: 360 }}>
-                <LandingTitle>Coffee Analytics</LandingTitle>
               </EuiFlexItem>
             </EuiFlexGroup>
           </EuiFlexItem>
@@ -73,7 +73,7 @@ export default function LandingPage() {
           </EuiFlexItem>
         </EuiFlexGroup>
         <EuiFlexGroup direction="rowReverse">
-          <EuiFlexItem style={{ minWidth: "50%" }}>
+          <EuiFlexItem>
             <Carousel items={carouselItems} current={current} />
           </EuiFlexItem>
         </EuiFlexGroup>

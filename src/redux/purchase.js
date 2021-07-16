@@ -33,7 +33,7 @@ export default function purchaseReducer(
     case FETCH_PURCHASES:
       return {
         ...state,
-        isLoading: false,
+        isLoading: true,
         error: action.error
       };
     case FETCH_PURCHASES_SUCCESS:
@@ -59,6 +59,7 @@ Actions.postPuchase = (new_purchase) => {
   return apiClient({
     url: `/purchase/`,
     method: `POST`,
+    adjustPath:true,
     types: {
       REQUEST: POST_PURCHASE,
       SUCCESS: POST_PURCHASE_SUCCESS,
@@ -75,6 +76,24 @@ Actions.fetchPurchases = (init_date, end_date) => {
   return apiClient({
     url: `/purchase/`,
     method: `GET`,
+    adjustPath:true,
+    types: {
+      REQUEST: FETCH_PURCHASES,
+      SUCCESS: FETCH_PURCHASES_SUCCESS,
+      FAILURE: FETCH_PURCHASES_FAILURE
+    },
+    options: {
+      data: {},
+      params: {init_date, end_date}
+    }
+  });
+};
+
+Actions.fetchAllPurchases = (init_date, end_date) => {
+  return apiClient({
+    url: `/purchase/all`,
+    method: `GET`,
+    adjustPath:false,
     types: {
       REQUEST: FETCH_PURCHASES,
       SUCCESS: FETCH_PURCHASES_SUCCESS,

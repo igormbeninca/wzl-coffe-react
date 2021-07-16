@@ -45,41 +45,43 @@ function ProfilePage({ user }) {
       <EuiPageBody component="section">
         <StyledEuiPageHeader>
           <EuiPageHeaderSection>
-            <EuiTitle size="l">
+            {/* <EuiTitle size="l">
               <h1>Profile</h1>
-            </EuiTitle>
+            </EuiTitle> */}
           </EuiPageHeaderSection>
         </StyledEuiPageHeader>
         <EuiPageContent verticalPosition="center" horizontalPosition="center">
           <StyledEuiPageContentBody>
             <EuiAvatar
               size="xl"
-              name={user.email || user.email || "Anonymous"}
+              iconSize="xxl"
+              name={user.full_name || user.full_name || "Anonymous"}
               initialsLength={2}
-              imageUrl={user.email}
+              iconType={"user"}
+              color="#006bb4"
             />
             <EuiTitle size="l">
-              <h2>@{user.email}</h2>
+              <h2>@{user.full_name}</h2>
             </EuiTitle>
             <EuiText>
               <p>
                 <EuiIcon type="email" /> {user.email}
               </p>
-              <p>
+              {/* <p>
                 <EuiIcon type="clock" /> member since {moment(user.email).format("MM-DD-YYYY")}
-              </p>
+              </p> */}
               <p>
-                <EuiIcon type="alert" />{" "}
-                {user.email ? user.email : "Full name not specified"}
+                <EuiIcon type="currency" />{" "}
+                {user.saldo ? user.saldo.toFixed(2) + " €" : "No Saldo"}
               </p>
               <p>
                 <EuiIcon type="number" />{" "}
-                {user.email ? user.email : "No phone number added"}
+                {user.id ? user.id : "No Id"}
               </p>
               <EuiHorizontalRule />
               <p>
                 <EuiIcon type="quote" />{" "}
-                {user.email ? user.email : "This user hasn't written a bio yet"}
+                {"Morar na Alemanha é todo dia um 7x1 diferente"}
               </p>
             </EuiText>
           </StyledEuiPageContentBody>

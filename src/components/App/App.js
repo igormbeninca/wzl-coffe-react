@@ -7,9 +7,12 @@ import {
   ProfilePage,
   NotFoundPage,
   RegistrationPage,
-  CoffeAnalytics,
+  PurchaseAnalytics,
   NewCoffe,
-  Layout
+  Layout,
+  AdminPage,
+  ForgotPasswordPage,
+  ResetPasswordPage,
 } from "../../components";
 
 //basename={process.env.PUBLIC_URL}
@@ -22,7 +25,7 @@ export default function App() {
           <Route path="/" element={<LandingPage />} />
           <Route
             path="/coffeanalytics"
-            element={<ProtectedRoute component={CoffeAnalytics} />}
+            element={<ProtectedRoute component={PurchaseAnalytics} />}
           />
           <Route path="*" element={<LandingPage />} />
           <Route
@@ -31,9 +34,15 @@ export default function App() {
           />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/registration" element={<RegistrationPage />} />
+          <Route path="/forgot" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password/:token" element={<ResetPasswordPage/>}/>
           <Route
             path="/profile"
             element={<ProtectedRoute component={ProfilePage} />}
+          />
+          <Route
+            path="/adminPanel"
+            element={<ProtectedRoute component={AdminPage} />}
           />
         </Routes>
       </Layout>

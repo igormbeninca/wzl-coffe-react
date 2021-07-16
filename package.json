@@ -11,6 +11,7 @@
     "@elastic/eui": "32.3.0",
     "@reduxjs/toolkit": "1.5.0",
     "axios": "0.21.1",
+    "faker": "^5.5.3",
     "framer-motion": "4.1.11",
     "history": "5.0.0",
     "moment": "2.29.1",

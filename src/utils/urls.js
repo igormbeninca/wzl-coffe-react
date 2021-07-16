@@ -36,12 +36,16 @@ export const formatAPIPath = (path) => {
  * @param {String} url - url string representing relative path to api endpoint
  * @param {Object} params - query params to format at end of url
  */
-export const formatURL = (url, params) => {
-  const endpointPath = formatAPIPath(url);
+export const formatURL = (url, params, adjustPath) => {
+  const endpointPath = adjustPath? formatAPIPath(url) : url;
+  // const baseUrl =
+  //   process.env.NODE_ENV === "production"
+  //     ? "https://daring-glider-313211.ey.r.appspot.com/api/v1"
+  //     : "http://192.168.0.185:8000/api/v1";
   const baseUrl =
     process.env.NODE_ENV === "production"
       ? "https://daring-glider-313211.ey.r.appspot.com/api/v1"
-      : "https://daring-glider-313211.ey.r.appspot.com/api/v1";
+      : "http://127.0.0.1:8000/api/v1";
   const fullURL = `${baseUrl}${endpointPath}`;
   return formatURLWithQueryParams(fullURL, params);
 };
