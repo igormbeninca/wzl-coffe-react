@@ -3,6 +3,10 @@ import moment from 'moment';
 import {
     EuiFlexGroup,
     EuiFlexItem,
+    EuiFlexGrid,
+    EuiCard,
+    EuiToolTip,
+    EuiIcon
   } from '@elastic/eui';
 import {
     Chart,
@@ -93,14 +97,56 @@ function reducePurchasesValues(data) {
       }, []);
       return result;
 }
+const reducer_euros = (accumulator, currentValue) => accumulator + currentValue.total;
+const reducer_quantity = (accumulator, currentValue) => accumulator + currentValue.quantity;
 
 export default function PurchaseStatistics({data}){
     // Total Products
     const resultProducts = reduceProductsQuantity(data);
     const resultPurchases = reducePurchasesValues(data);
-    //console.log(resultPurchases);  
+    const total_euros = (resultPurchases.reduce(reducer_euros,0)).toFixed(2);
+    const total_quantity = (resultPurchases.reduce(reducer_quantity,0)).toFixed(0); 
+    const avg_euros = ((total_euros / resultPurchases.length) || 0).toFixed(2);
+    const avg_quantity = ((total_quantity / resultPurchases.length) || 0).toFixed(2);
+    const best_day = Math.max.apply(Math, resultPurchases.map(function(purchase) { return purchase.total; }) || 0).toFixed(2);
     return(
         <EuiFlexGroup gutterSize="s" direction="column">
+            <EuiFlexItem>
+                <EuiFlexGrid columns={3}>
+                    <EuiFlexItem>
+                        <EuiToolTip
+                            position="bottom"
+                            content={
+                            <p>
+                            Brasilien 7 x 1 Deutschland
+                            </p>
+                            }>
+                            <EuiCard
+                            layout="horizontal"
+                            icon={<EuiIcon size="xxl" type="globe" />}
+                            title="Total"
+                            description={total_euros + " €" + " and " + total_quantity + " Products"}
+                            />
+                            </EuiToolTip>
+                        </EuiFlexItem>
+                        <EuiFlexItem>
+                            <EuiCard
+                                layout="horizontal"
+                                icon={<EuiIcon size="xxl" type="stats" />}
+                                title="Avg. per Day"
+                                description={avg_euros + " €" + " and " + avg_quantity + " Products"}
+                            />
+                        </EuiFlexItem>
+                        <EuiFlexItem>
+                            <EuiCard
+                                layout="horizontal"
+                                icon={<EuiIcon size="xxl" type="currency" />}
+                                title="Best Day"
+                                description={best_day + " €"}
+                            />
+                    </EuiFlexItem>
+                </EuiFlexGrid>
+            </EuiFlexItem>
             <EuiFlexItem>
                 <Chart size={{height: 500}}>
                     <Settings
