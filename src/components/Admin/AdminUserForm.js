@@ -51,6 +51,7 @@ function AdminUserForm({
     saldo : current_user.saldo,
     full_name: current_user.full_name,
     password: "",
+    charge:(0).toFixed(2),
   });
 
   // Toast
@@ -75,10 +76,11 @@ function AdminUserForm({
   };
 
   const handleInputChange = (label, value) => {
-    validateInput(label, value);
+      validateInput(label, value);
 
-    setForm((form) => ({ ...form, [label]: value }));
+      setForm((form) => ({ ...form, [label]: value }));
   };
+
   const navigate = useNavigate();
 
 
@@ -104,7 +106,7 @@ function AdminUserForm({
       rfid:form.rfid,
       is_active: form.is_active,
       is_superuser: form.is_superuser,
-      saldo : form.saldo,
+      saldo : Number(form.saldo) + Number(form.charge),
       password: "",
     });
     if (action.type == UPDATE_USER_SUCCESS)
@@ -194,6 +196,21 @@ function AdminUserForm({
             value={form.saldo}
             onChange={(e) => handleInputChange("saldo", e.target.value)}
             aria-label="Enter the saldo associated with this account."
+            isInvalid={Boolean(errors.rfid)}
+          />
+        </EuiFormRow>
+        <EuiFormRow
+          label="Charge"
+          helpText="Enter the new value you want to charge associated with this account."
+          isInvalid={Boolean(errors.rfid)}
+          error={`Please enter a valid number.`}
+        >
+          <EuiFieldText
+            icon="bolt"
+            placeholder="0.00 $"
+            value={form.charge}
+            onChange={(e) => handleInputChange("charge", e.target.value)}
+            aria-label="Enter the charge associated with this account."
             isInvalid={Boolean(errors.rfid)}
           />
         </EuiFormRow>

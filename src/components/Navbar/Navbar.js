@@ -28,6 +28,11 @@ import { Link } from "react-router-dom";
 import { htmlIdGenerator } from "@elastic/eui/lib/services";
 
 function Navbar({ user, logUserOut, ...props }) {
+  const [selectedTabId, setSelectedTabId] = useState('');
+
+  const onSelectedTabChanged = (id) => {
+    setSelectedTabId(id);
+  };
   const navigate = useNavigate();
   const HeaderUserMenu = () => {
     const id = htmlIdGenerator()();
@@ -36,6 +41,7 @@ function Navbar({ user, logUserOut, ...props }) {
     const handleLogout = () => {
       closeMenu();
       logUserOut();
+      setSelectedTabId('')
       navigate("/login");
     };
     const onMenuButtonClick = () => {
@@ -118,24 +124,24 @@ function Navbar({ user, logUserOut, ...props }) {
   };
 
   return (
-    <EuiHeader 
+    <EuiHeader
       sections={[
         {
           items: [
             <Link to="/">
-              <EuiHeaderLogo  iconType="visBarVerticalStacked"></EuiHeaderLogo>
+              <EuiHeaderLogo onClick={() => onSelectedTabChanged('logo')} iconType="visBarVerticalStacked">WZL Kiosk</EuiHeaderLogo>
             </Link>,
             <EuiHeaderLinks>
               <Link to="/coffeanalytics">
-                <EuiHeaderLink  iconType="visAreaStacked">
+                <EuiHeaderLink isActive={'analytics' === selectedTabId} onClick={() => onSelectedTabChanged('analytics')} iconType="visAreaStacked">
                   Analytics
                 </EuiHeaderLink>
               </Link>
               <Link to="/newcoffe">
-                <EuiHeaderLink iconType="cheer">Buy</EuiHeaderLink>
+                <EuiHeaderLink isActive={'buy' === selectedTabId} onClick={() => onSelectedTabChanged('buy')} iconType="cheer">Buy</EuiHeaderLink>
               </Link>
               <Link to="/adminPanel">
-                {user.is_superuser === true ? <EuiHeaderLink iconType="reporter">Admin</EuiHeaderLink> : null}
+                {user.is_superuser === true ? <EuiHeaderLink isActive={'admin' === selectedTabId} onClick={() => onSelectedTabChanged('admin')} iconType="reporter">Admin</EuiHeaderLink> : null}
               </Link>
             </EuiHeaderLinks>
           ],
