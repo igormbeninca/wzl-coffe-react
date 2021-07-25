@@ -20,6 +20,7 @@ import {
 
 import {AdminTable , NotFoundPage, PurchaseTable} from "../../components"
 import PurchaseStatistics from './Purchase/PurchaseStatistics';
+import TopStatistics from './Top/TopStatistics';
 
 const tabs = [
   {
@@ -48,6 +49,16 @@ const tabs = [
       <span>
         <EuiIcon type="beaker" />
         &nbsp;Products
+      </span>
+    ),
+    disabled: false,
+  },
+  {
+    id: 'top',
+    name: (
+      <span>
+        <EuiIcon type="starEmptySpace" />
+        &nbsp;Top
       </span>
     ),
     disabled: false,
@@ -86,6 +97,8 @@ function AdminPage({fetchUsers, fetchPurchases, data, purchaseData, isLoading, i
           return <PurchaseTable raw_data = {purchase_data}/>
         case 'products':
           return <PurchaseStatistics data = {purchase_data}/>
+        case 'top':
+          return <TopStatistics user_data = {raw_data} purchase_data = {purchase_data}/>
       }
     }
     React.useEffect(() => {
