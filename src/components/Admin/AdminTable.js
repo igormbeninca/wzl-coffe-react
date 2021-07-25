@@ -50,6 +50,7 @@ const columns = [
   {
     id: 'saldo',
     isSortable: true,
+    schema:'currency',
   },
 ];
 
@@ -143,7 +144,7 @@ export default function AdminTable ({raw_data}) {
     []
   );
   // ** Sorting config
-  const [sortingColumns, setSortingColumns] = useState([{ id: 'id', direction: 'asc' }]);
+  const [sortingColumns, setSortingColumns] = useState([{ id: 'id', direction: 'asc' }, { id: 'saldo', direction: 'asc' }]);
   const onSort = useCallback(
     (sortingColumns) => {
       setSortingColumns(sortingColumns);
@@ -161,7 +162,7 @@ export default function AdminTable ({raw_data}) {
             ).toFixed(0);
             setCellProps({
               style: {
-                backgroundColor: `rgba(0, 255, 0, ${numeric * 0.002})`,
+                backgroundColor: numeric >= 0 ? `rgba(0, 255, 0, ${numeric * 0.002})`:`rgba(255, 0, 0, ${Math.abs(numeric) * 0.002})`,
               },
             });
           }

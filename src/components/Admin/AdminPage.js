@@ -102,7 +102,7 @@ function AdminPage({fetchUsers, fetchPurchases, data, purchaseData, isLoading, i
         id: element.id,
         full_name: element.full_name,
         email: element.email,
-        saldo: parseFloat(element.saldo).toFixed(2),
+        saldo: element.saldo.toFixed(2),
         rfid : element.rfid,
         is_active: String(element.is_active),
         is_superuser:String(element.is_superuser)

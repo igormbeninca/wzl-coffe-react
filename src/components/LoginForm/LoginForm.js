@@ -121,7 +121,6 @@ function LoginForm({
             //compressed={true}
             autoFocus
             ref={(input) => { this.nameInput = input; }} 
-            icon="email"
             placeholder="RFID"
             value={form.rfid}
             onChange={(e) => handleInputChange("rfid", e.target.value)}

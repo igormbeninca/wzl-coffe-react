@@ -73,6 +73,7 @@ Actions.postPuchase = (new_purchase) => {
 };
 
 Actions.fetchPurchases = (init_date, end_date) => {
+  const limit = 5000;
   return apiClient({
     url: `/purchase/`,
     method: `GET`,
@@ -84,12 +85,13 @@ Actions.fetchPurchases = (init_date, end_date) => {
     },
     options: {
       data: {},
-      params: {init_date, end_date}
+      params: {limit, init_date, end_date}
     }
   });
 };
 
 Actions.fetchAllPurchases = (init_date, end_date) => {
+  const limit = 5000;
   return apiClient({
     url: `/purchase/all`,
     method: `GET`,
@@ -101,7 +103,7 @@ Actions.fetchAllPurchases = (init_date, end_date) => {
     },
     options: {
       data: {},
-      params: {init_date, end_date}
+      params: {limit, init_date, end_date}
     }
   });
 };
