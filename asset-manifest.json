@@ -813,30 +813,30 @@
     "icon.wrench-js.js": "/wzl-coffe-react/static/js/icon.wrench-js.63b1cfb3.chunk.js",
     "icon.wrench-js.js.map": "/wzl-coffe-react/static/js/icon.wrench-js.63b1cfb3.chunk.js.map",
     "main.css": "/wzl-coffe-react/static/css/main.c2f075e5.chunk.css",
-    "main.js": "/wzl-coffe-react/static/js/main.c3ac670e.chunk.js",
-    "main.js.map": "/wzl-coffe-react/static/js/main.c3ac670e.chunk.js.map",
+    "main.js": "/wzl-coffe-react/static/js/main.6d8f074f.chunk.js",
+    "main.js.map": "/wzl-coffe-react/static/js/main.6d8f074f.chunk.js.map",
     "runtime-main.js": "/wzl-coffe-react/static/js/runtime-main.b59823ea.js",
     "runtime-main.js.map": "/wzl-coffe-react/static/js/runtime-main.b59823ea.js.map",
     "static/css/408.ead94304.chunk.css": "/wzl-coffe-react/static/css/408.ead94304.chunk.css",
-    "static/js/408.d95bf981.chunk.js": "/wzl-coffe-react/static/js/408.d95bf981.chunk.js",
-    "static/js/408.d95bf981.chunk.js.map": "/wzl-coffe-react/static/js/408.d95bf981.chunk.js.map",
+    "static/js/408.88d5df41.chunk.js": "/wzl-coffe-react/static/js/408.88d5df41.chunk.js",
+    "static/js/408.88d5df41.chunk.js.map": "/wzl-coffe-react/static/js/408.88d5df41.chunk.js.map",
     "index.html": "/wzl-coffe-react/index.html",
     "static/css/408.ead94304.chunk.css.map": "/wzl-coffe-react/static/css/408.ead94304.chunk.css.map",
     "static/css/main.c2f075e5.chunk.css.map": "/wzl-coffe-react/static/css/main.c2f075e5.chunk.css.map",
-    "static/js/408.d95bf981.chunk.js.LICENSE.txt": "/wzl-coffe-react/static/js/408.d95bf981.chunk.js.LICENSE.txt",
+    "static/js/408.88d5df41.chunk.js.LICENSE.txt": "/wzl-coffe-react/static/js/408.88d5df41.chunk.js.LICENSE.txt",
     "static/media/105-freelancer.3e442070.svg": "/wzl-coffe-react/static/media/105-freelancer.3e442070.svg",
     "static/media/107-healthy.fbcda3b1.svg": "/wzl-coffe-react/static/media/107-healthy.fbcda3b1.svg",
     "static/media/111-coding.fb695d62.svg": "/wzl-coffe-react/static/media/111-coding.fb695d62.svg",
     "static/media/117-ironman.d8c14c80.svg": "/wzl-coffe-react/static/media/117-ironman.d8c14c80.svg",
     "static/media/118-macbook.8870339a.svg": "/wzl-coffe-react/static/media/118-macbook.8870339a.svg",
-    "static/media/coffe.cff3f1f6.svg": "/wzl-coffe-react/static/media/coffe.cff3f1f6.svg",
-    "static/media/day81-ice-cream.d9ea0726.svg": "/wzl-coffe-react/static/media/day81-ice-cream.d9ea0726.svg"
+    "static/media/coffe.708018ef.svg": "/wzl-coffe-react/static/media/coffe.708018ef.svg",
+    "static/media/day81-ice-cream.a517968e.svg": "/wzl-coffe-react/static/media/day81-ice-cream.a517968e.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.b59823ea.js",
     "static/css/408.ead94304.chunk.css",
-    "static/js/408.d95bf981.chunk.js",
+    "static/js/408.88d5df41.chunk.js",
     "static/css/main.c2f075e5.chunk.css",
-    "static/js/main.c3ac670e.chunk.js"
+    "static/js/main.6d8f074f.chunk.js"
   ]
 }
