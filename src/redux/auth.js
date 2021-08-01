@@ -85,7 +85,7 @@ Actions.requestUserLogin = ({ rfid }) => {
         url :
         process.env.NODE_ENV === "production"
           ? `https://daring-glider-313211.ey.r.appspot.com/api/v1/login/access-token-rfid`
-          : `http://127.0.0.1:8000/api/v1/login/access-token-rfid`,
+          : `https://daring-glider-313211.ey.r.appspot.com/api/v1/login/access-token-rfid`,
         // url: `https://daring-glider-313211.ey.r.appspot.com/api/v1/login/access-token`,
         // //url: `http://192.168.0.185:8000/api/v1/login/access-token`,
         data: {rfid:rfid},

@@ -106,9 +106,9 @@ function reduceProductsQuantityAbsolute(data) {
       }, []);
       return result.map(purchase => {purchase.total = Number(purchase.total.toFixed(2)); return purchase});
 }
-function reduceProductsQuantity(data) {
+function reduceProductsQuantity(data, reduceTimeFormat) {
     const result = data.reduce((acc, d) => {
-        const day = moment(d.time_stamp, "YYYY-MM-DD").unix()*1000;
+        const day = moment(d.time_stamp, reduceTimeFormat).unix()*1000;
         const found = acc.find(a => a.time === day && a.name === d.name);
         //const value = { name: d.name, val: d.value };
         const total =  Number(d.total); // the element in data property
@@ -124,9 +124,9 @@ function reduceProductsQuantity(data) {
       }, []);
       return result.map(purchase => {purchase.quantity = Number(purchase.quantity.toFixed(2)); return purchase});
 }
-function reducePurchasesValues(data) {
+function reducePurchasesValues(data, reduceTimeFormat) {
     const result = data.reduce((acc, d) => {
-        const day = moment(d.time_stamp, "YYYY-MM-DD").unix()*1000;
+        const day = moment(d.time_stamp, reduceTimeFormat).unix()*1000;
         const found = acc.find(a => a.time === day);
         //const value = { name: d.name, val: d.value };
         const total =  Number(d.total); // the element in data property
@@ -147,16 +147,16 @@ function reducePurchasesValues(data) {
 const reducer_euros = (accumulator, currentValue) => accumulator + currentValue.total;
 const reducer_quantity = (accumulator, currentValue) => accumulator + currentValue.quantity;
 
-export default function PurchaseStatistics({data, isLoading}){
+export default function PurchaseStatistics({data, isLoading, reduceTimeFormat}){
+    console.log(reduceTimeFormat);
     // Total Products
     const resultHeatMap = reduceProductsHeatMap(data);
-    const resultProducts = reduceProductsQuantity(data);
-    const resultPurchases = reducePurchasesValues(data);
+    const resultProducts = reduceProductsQuantity(data, reduceTimeFormat);
+    const resultPurchases = reducePurchasesValues(data, reduceTimeFormat);
     const resultProductAbsolute = reduceProductsQuantityAbsolute(data);
     const total_euros = (resultPurchases.reduce(reducer_euros,0)).toFixed(2);
     const total_quantity = (resultPurchases.reduce(reducer_quantity,0)).toFixed(0); 
     const avg_euros = ((total_euros / resultPurchases.length) || 0).toFixed(2);
-    const avg_quantity = ((total_quantity / resultPurchases.length) || 0).toFixed(2);
     const best_day = Math.max.apply(Math, resultPurchases.map(function(purchase) { return purchase.total; }) || 0).toFixed(2);
     return(
         <EuiFlexGroup gutterSize="s" direction="column">
@@ -197,7 +197,7 @@ export default function PurchaseStatistics({data, isLoading}){
                                     <EuiFlexItem>
                                         <EuiStat
                                             title={avg_euros + " €"}
-                                            description="Avg. per Day"
+                                            description="Average"
                                             titleColor="primary"
                                             textAlign="left"
                                             titleSize="m"
@@ -215,7 +215,7 @@ export default function PurchaseStatistics({data, isLoading}){
                                 <EuiFlexItem>
                                     <EuiStat
                                         title={best_day + " €"}
-                                        description="Best Day"
+                                        description="Best"
                                         titleColor="secondary"
                                         textAlign="left"
                                         titleSize="m"
@@ -232,6 +232,7 @@ export default function PurchaseStatistics({data, isLoading}){
                         //theme={theme}
                         rotation={0}
                         showLegend={true}
+                        legendPosition={"top"}
                     />
                     <BarSeries
                         id="sales"
@@ -267,6 +268,7 @@ export default function PurchaseStatistics({data, isLoading}){
                         theme={theme}
                         rotation={0}
                         showLegend={true}
+                        legendPosition={"top"}
                     />
                     <LineSeries
                         id="sales"
@@ -374,10 +376,10 @@ export default function PurchaseStatistics({data, isLoading}){
                 <h1>Product Consuption</h1>
             </EuiFlexItem>
             <EuiFlexItem>
-                <Chart size={{height: 200}} className="story-chart">
+                <Chart size={{height: 300}} className="story-chart">
                 <Settings
                 showLegend
-                legendPosition="right"
+                legendPosition="top"
                 brushAxis="both"
                 //xDomain={{ min: 1572825600000, max: 1572912000000, minInterval: 1800000 }}
                 //debugState={true}

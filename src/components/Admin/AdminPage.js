@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import moment from 'moment';
 import { Actions as usersActions } from "../../redux/users";
 import { Actions as purchaseActions } from "../../redux/purchase";
+import {formatTimeReduce} from "../../utils/timeFormating"
 //import { fake } from 'faker';
 import {
   EuiLoadingSpinner,
@@ -16,12 +17,24 @@ import {
   EuiDatePicker, 
   EuiDatePickerRange,
   EuiFlexItem,
+  EuiComboBox,
 } from '@elastic/eui';
 
 import {AdminTable , NotFoundPage, PurchaseTable} from "../../components"
 import PurchaseStatistics from './Purchase/PurchaseStatistics';
 import TopStatistics from './Top/TopStatistics';
 
+const timeOptions = [
+  {
+    label: 'Day',
+  },
+  {
+    label: 'Month',
+  },
+  {
+    label: 'Year'
+  }
+];
 const tabs = [
   {
     id: 'users',
@@ -75,6 +88,13 @@ function AdminPage({fetchUsers, fetchPurchases, data, purchaseData, isLoading, i
       setSelectedTabId(id);
     };
 
+    const [selectedOptions, setSelected] = useState([timeOptions[0]]);
+
+    const onChange = (selectedOptions) => {
+      // We should only get back either 0 or 1 options.
+      setSelected(selectedOptions);
+    };
+
     const renderTabs = () => {
       return tabs.map((tab, index) => (
         <EuiTab
@@ -96,7 +116,11 @@ function AdminPage({fetchUsers, fetchPurchases, data, purchaseData, isLoading, i
           if (isLoadingPurchases) return <EuiLoadingSpinner size="xl" />
           return <PurchaseTable raw_data = {purchase_data}/>
         case 'products':
-          return <PurchaseStatistics data = {purchase_data} isLoading = {isLoadingPurchases}/>
+          console.log(selectedOptions);
+          return <PurchaseStatistics 
+            data = {purchase_data}
+            isLoading = {isLoadingPurchases}
+            reduceTimeFormat={formatTimeReduce(selectedOptions)}/>
         case 'top':
           return <TopStatistics user_data = {raw_data} purchase_data = {purchase_data} isLoading = {isLoadingPurchases}/>
       }
@@ -141,8 +165,10 @@ function AdminPage({fetchUsers, fetchPurchases, data, purchaseData, isLoading, i
               <EuiTabs size="s">{renderTabs()}</EuiTabs>
             </EuiFlexItem>
             <EuiFlexItem>
-            <EuiDatePickerRange
-              startDateControl={
+              <EuiFlexGroup gutterSize="m" direction="row">
+                <EuiFlexItem grow={false}>
+                <EuiDatePickerRange
+                startDateControl={
                 <EuiDatePicker
                   selected={startDate}
                   onChange={setStartDate}
@@ -169,6 +195,18 @@ function AdminPage({fetchUsers, fetchPurchases, data, purchaseData, isLoading, i
                 />
               }
               />
+            </EuiFlexItem>
+            <EuiFlexItem>
+              <EuiComboBox
+                placeholder="Select a single option"
+                singleSelection={{ asPlainText: true }}
+                options={timeOptions}
+                selectedOptions={selectedOptions}
+                onChange={onChange}
+                isClearable={false}
+              />
+            </EuiFlexItem>
+            </EuiFlexGroup>
             </EuiFlexItem>
             <EuiFlexItem>
               {renderSelectedTable(selectedTabId)}
