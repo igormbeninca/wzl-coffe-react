@@ -188,6 +188,7 @@ function PurchaseCharts({data}) {
                 yAccessors={['quantity']}
                 xScaleType="time"
                 splitSeriesAccessors={['name']}
+                stackAccessors={['name']}
                 color={euiPaletteColorBlind({ rotations: 1, order: 'group' }).slice(0, 20)}
             />
             <Axis
@@ -196,7 +197,7 @@ function PurchaseCharts({data}) {
                 tickFormat={timeFormatter("YYYY MM-DD")}
                 showGridLines
                 showOverlappingTicks={true}
-                showOverlappingLabels={true}
+                showOverlappingLabels={false}
                 title="Time"
             />
             <Axis
@@ -240,7 +241,7 @@ function PurchaseCharts({data}) {
                 tickFormat={timeFormatter("YYYY MM-DD")}
                 showGridLines
                 showOverlappingTicks={true}
-                showOverlappingLabels={true}
+                showOverlappingLabels={false}
                 title="Time"
             />
             <Axis

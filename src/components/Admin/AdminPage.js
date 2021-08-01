@@ -96,14 +96,15 @@ function AdminPage({fetchUsers, fetchPurchases, data, purchaseData, isLoading, i
           if (isLoadingPurchases) return <EuiLoadingSpinner size="xl" />
           return <PurchaseTable raw_data = {purchase_data}/>
         case 'products':
-          return <PurchaseStatistics data = {purchase_data}/>
+          return <PurchaseStatistics data = {purchase_data} isLoading = {isLoadingPurchases}/>
         case 'top':
-          return <TopStatistics user_data = {raw_data} purchase_data = {purchase_data}/>
+          return <TopStatistics user_data = {raw_data} purchase_data = {purchase_data} isLoading = {isLoadingPurchases}/>
       }
     }
     React.useEffect(() => {
         fetchUsers();
-        fetchPurchases(startDate.format("YYYY-MM-DDT00:00:00.000000"),endDate.format("YYYY-MM-DDT23:59:00.000000"));
+        if (startDate <= endDate)
+          fetchPurchases(startDate.format("YYYY-MM-DDT00:00:00.000000"),endDate.format("YYYY-MM-DDT23:59:00.000000"));
       }, [fetchUsers, fetchPurchases, startDate, endDate]);
 
     //if (isLoading || isLoadingPurchases) return <EuiLoadingSpinner size="xl" />
@@ -149,6 +150,8 @@ function AdminPage({fetchUsers, fetchPurchases, data, purchaseData, isLoading, i
                   endDate={endDate}
                   isInvalid={startDate > endDate}
                   aria-label="Start date"
+                  dateFormat="DD-MM-YYYY"
+                  isLoading={isLoadingPurchases}
                   //showTimeSelect
                 />
               }
@@ -160,6 +163,8 @@ function AdminPage({fetchUsers, fetchPurchases, data, purchaseData, isLoading, i
                   endDate={endDate}
                   isInvalid={startDate > endDate}
                   aria-label="End date"
+                  dateFormat="DD-MM-YYYY"
+                  isLoading={isLoadingPurchases}
                   //showTimeSelect
                 />
               }

@@ -18,12 +18,15 @@ import {
     LineSeries,
     CurveType,
     AreaSeries,
+    Heatmap,
     Settings,
     timeFormatter,
     Partition,
-    PartitionLayout 
+    PartitionLayout,
+    ScaleType
   } from "@elastic/charts";
 
+const timeFormat = "DD-MM-YYYY"
 const theme = {
     barSeriesStyle: {
         bar: {
@@ -64,6 +67,26 @@ const theme = {
 //       }, []);
 //       return result;
 // }
+function reduceProductsHeatMap(data) {
+    const result = data.reduce((acc, d) => {
+        const day = moment(moment(d.time_stamp).format("1993-11-12 HH")).unix()*1000;
+        //const day_2 = moment(moment(d.time_stamp).format("1993-11-12 HH:mm")).unix()*1000;
+        //console.log(day_2)
+        const found = acc.find(a => a.time === day && a.name === d.name);
+        //const value = { name: d.name, val: d.value };
+        const total =  Number(d.quantity); // the element in data property
+        if (!found) {
+          //acc.push(...value);
+          acc.push({time: day,  name:d.name, quantity: total}) // not found, so need to add data property
+        }
+        else {
+          //acc.push({ name: d.name, data: [{ value: d.value }, { count: d.count }] });
+          found.quantity += total; // if found, that means data property exists, so just push new element to found.data.
+        }
+        return acc;
+      }, []);
+      return result;
+}
 function reduceProductsQuantityAbsolute(data) {
     const result = data.reduce((acc, d) => {
         const found = acc.find(a => a.name === d.name);
@@ -124,8 +147,9 @@ function reducePurchasesValues(data) {
 const reducer_euros = (accumulator, currentValue) => accumulator + currentValue.total;
 const reducer_quantity = (accumulator, currentValue) => accumulator + currentValue.quantity;
 
-export default function PurchaseStatistics({data}){
+export default function PurchaseStatistics({data, isLoading}){
     // Total Products
+    const resultHeatMap = reduceProductsHeatMap(data);
     const resultProducts = reduceProductsQuantity(data);
     const resultPurchases = reducePurchasesValues(data);
     const resultProductAbsolute = reduceProductsQuantityAbsolute(data);
@@ -158,7 +182,7 @@ export default function PurchaseStatistics({data}){
                                             //titleColor="subdued"
                                             textAlign="left"
                                             titleSize="m"
-                                            isLoading={false}/>
+                                            isLoading={isLoading}/>
                                     </EuiFlexItem>
                                 </EuiFlexGroup>
                             </EuiPanel>
@@ -177,7 +201,7 @@ export default function PurchaseStatistics({data}){
                                             titleColor="primary"
                                             textAlign="left"
                                             titleSize="m"
-                                            isLoading={false}/>
+                                            isLoading={isLoading}/>
                                     </EuiFlexItem>
                                 </EuiFlexGroup>
                             </EuiPanel>
@@ -195,7 +219,7 @@ export default function PurchaseStatistics({data}){
                                         titleColor="secondary"
                                         textAlign="left"
                                         titleSize="m"
-                                        isLoading={false}/>
+                                        isLoading={isLoading}/>
                                 </EuiFlexItem>
                             </EuiFlexGroup>
                         </EuiPanel>
@@ -217,15 +241,16 @@ export default function PurchaseStatistics({data}){
                         yAccessors={['quantity']}
                         xScaleType="time"
                         splitSeriesAccessors={['name']}
+                        stackAccessors={['name']}
                         color={euiPaletteColorBlind({ rotations: 1, order: 'group' }).slice(0, 20)}
                     />
                     <Axis
                         id="bottom-axis"
                         position={"bottom"}
-                        tickFormat={timeFormatter("YYYY MM-DD")}
+                        tickFormat={timeFormatter(timeFormat)}
                         showGridLines
                         showOverlappingTicks={true}
-                        showOverlappingLabels={true}
+                        showOverlappingLabels={false}
                         title="Time"
                     />
                     <Axis
@@ -266,10 +291,10 @@ export default function PurchaseStatistics({data}){
                     <Axis
                         id="bottom-axis"
                         position={"bottom"}
-                        tickFormat={timeFormatter("YYYY MM-DD")}
+                        tickFormat={timeFormatter(timeFormat)}
                         showGridLines
-                        showOverlappingTicks={true}
-                        showOverlappingLabels={true}
+                        showOverlappingTicks={false}
+                        showOverlappingLabels={false}
                         title="Time"
                     />
                     <Axis
@@ -344,6 +369,64 @@ export default function PurchaseStatistics({data}){
                         </Chart>                
                     </EuiFlexItem>
                 </EuiFlexGroup>
+            </EuiFlexItem>
+            <EuiFlexItem>
+                <h1>Product Consuption</h1>
+            </EuiFlexItem>
+            <EuiFlexItem>
+                <Chart size={{height: 200}} className="story-chart">
+                <Settings
+                showLegend
+                legendPosition="right"
+                brushAxis="both"
+                //xDomain={{ min: 1572825600000, max: 1572912000000, minInterval: 1800000 }}
+                //debugState={true}
+                />
+                <Heatmap
+                id="Product Consuption"
+                colorScale={ScaleType.Threshold}
+                ranges={[1, 5, 10, 15, 20]}
+                colors={['#ffffff', '#d2e9f7', '#8bc8fb', '#fdec25', '#fba740', '#fe5050']}
+                data={resultHeatMap}
+                xAccessor={(d) => d.time}
+                yAccessor={(d) => d.name}
+                valueAccessor={(d) => d.quantity}
+                valueFormatter={(d) => d.toFixed(0.2)}
+                ySortPredicate="numAsc"
+                xScaleType={ScaleType.Time}
+                config={{
+                    xAxisLabel: {
+                        formatter: timeFormatter("HH:mm")
+                        },
+                    grid: {
+                        cellHeight: {
+                            min: 20,
+                        },
+                        stroke: {
+                            width: 1,
+                            color: '#D3DAE6',
+                        },
+                        },
+                        cell: {
+                            maxWidth: 'fill',
+                            maxHeight: 3,
+                            label: {
+                                visible: false,
+                            },
+                            border: {
+                                stroke: '#D3DAE6',
+                                strokeWidth: 0,
+                            },
+                        },
+                        yAxisLabel: {
+                        visible: true,
+                        width: 'auto',
+                        padding: { left: 10, right: 10 },
+                        },
+                    }
+                }
+                />
+                </Chart>
             </EuiFlexItem>
         </EuiFlexGroup>
     );

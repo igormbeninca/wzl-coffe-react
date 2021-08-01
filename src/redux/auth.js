@@ -127,7 +127,7 @@ Actions.requestUserLoginEmail = ({ email, password }) => {
         url :
         process.env.NODE_ENV === "production"
           ? `https://daring-glider-313211.ey.r.appspot.com/api/v1/login/access-token`
-          : `http://127.0.0.1:8000/api/v1/login/access-token`,
+          : `https://daring-glider-313211.ey.r.appspot.com/api/v1/login/access-token`,
         // url: `https://daring-glider-313211.ey.r.appspot.com/api/v1/login/access-token`,
         // //url: `http://192.168.0.185:8000/api/v1/login/access-token`,
         data: formData,
