@@ -813,8 +813,8 @@
     "icon.wrench-js.js": "/wzl-coffe-react/static/js/icon.wrench-js.b523f80a.chunk.js",
     "icon.wrench-js.js.map": "/wzl-coffe-react/static/js/icon.wrench-js.b523f80a.chunk.js.map",
     "main.css": "/wzl-coffe-react/static/css/main.c2f075e5.chunk.css",
-    "main.js": "/wzl-coffe-react/static/js/main.159c846a.chunk.js",
-    "main.js.map": "/wzl-coffe-react/static/js/main.159c846a.chunk.js.map",
+    "main.js": "/wzl-coffe-react/static/js/main.61a9ae69.chunk.js",
+    "main.js.map": "/wzl-coffe-react/static/js/main.61a9ae69.chunk.js.map",
     "runtime-main.js": "/wzl-coffe-react/static/js/runtime-main.c2c3c6b6.js",
     "runtime-main.js.map": "/wzl-coffe-react/static/js/runtime-main.c2c3c6b6.js.map",
     "static/css/408.ead94304.chunk.css": "/wzl-coffe-react/static/css/408.ead94304.chunk.css",
@@ -829,14 +829,14 @@
     "static/media/111-coding.fb695d62.svg": "/wzl-coffe-react/static/media/111-coding.fb695d62.svg",
     "static/media/117-ironman.d8c14c80.svg": "/wzl-coffe-react/static/media/117-ironman.d8c14c80.svg",
     "static/media/118-macbook.8870339a.svg": "/wzl-coffe-react/static/media/118-macbook.8870339a.svg",
-    "static/media/coffe.708018ef.svg": "/wzl-coffe-react/static/media/coffe.708018ef.svg",
-    "static/media/day81-ice-cream.a517968e.svg": "/wzl-coffe-react/static/media/day81-ice-cream.a517968e.svg"
+    "static/media/coffe.cff3f1f6.svg": "/wzl-coffe-react/static/media/coffe.cff3f1f6.svg",
+    "static/media/day81-ice-cream.d9ea0726.svg": "/wzl-coffe-react/static/media/day81-ice-cream.d9ea0726.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.c2c3c6b6.js",
     "static/css/408.ead94304.chunk.css",
     "static/js/408.b428a1c0.chunk.js",
     "static/css/main.c2f075e5.chunk.css",
-    "static/js/main.159c846a.chunk.js"
+    "static/js/main.61a9ae69.chunk.js"
   ]
 }
