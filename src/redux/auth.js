@@ -84,8 +84,8 @@ Actions.requestUserLogin = ({ rfid }) => {
         method: `POST`,
         url :
         process.env.NODE_ENV === "production"
-          ? `https://daring-glider-313211.ey.r.appspot.com/api/v1/login/access-token-rfid`
-          : `https://daring-glider-313211.ey.r.appspot.com/api/v1/login/access-token-rfid`,
+          ? `https://wzl-kiosk.ey.r.appspot.com/api/v1/login/access-token-rfid`
+          : `https://wzl-kiosk.ey.r.appspot.com/api/v1/login/access-token-rfid`,
         // url: `https://daring-glider-313211.ey.r.appspot.com/api/v1/login/access-token`,
         // //url: `http://192.168.0.185:8000/api/v1/login/access-token`,
         data: {rfid:rfid},
@@ -126,8 +126,8 @@ Actions.requestUserLoginEmail = ({ email, password }) => {
         method: `POST`,
         url :
         process.env.NODE_ENV === "production"
-          ? `https://daring-glider-313211.ey.r.appspot.com/api/v1/login/access-token`
-          : `https://daring-glider-313211.ey.r.appspot.com/api/v1/login/access-token`,
+          ? `https://wzl-kiosk.ey.r.appspot.com/api/v1/login/access-token`
+          : `https://wzl-kiosk.ey.r.appspot.com/api/v1/login/access-token`,
         // url: `https://daring-glider-313211.ey.r.appspot.com/api/v1/login/access-token`,
         // //url: `http://192.168.0.185:8000/api/v1/login/access-token`,
         data: formData,

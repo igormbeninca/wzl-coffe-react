@@ -18,6 +18,7 @@ import {
   EuiDatePickerRange,
   EuiFlexItem,
   EuiComboBox,
+  EuiButtonIcon,
 } from '@elastic/eui';
 
 import {AdminTable , NotFoundPage, PurchaseTable} from "../../components"
@@ -204,6 +205,17 @@ function AdminPage({fetchUsers, fetchPurchases, data, purchaseData, isLoading, i
                 selectedOptions={selectedOptions}
                 onChange={onChange}
                 isClearable={false}
+              />
+            </EuiFlexItem>
+            <EuiFlexItem grow={false}>
+              <EuiButtonIcon
+                size="m"
+                color="primary"
+                onClick={() => {
+                  fetchUsers();
+                  fetchPurchases(startDate.format("YYYY-MM-DDT00:00:00.000000"),endDate.format("YYYY-MM-DDT23:59:00.000000"));}}
+                iconType="refresh"
+                aria-label="Refresh"
               />
             </EuiFlexItem>
             </EuiFlexGroup>
