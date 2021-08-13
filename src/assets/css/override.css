@@ -22,3 +22,6 @@ a:focus {
 .euiTitle--small {
   color: #006bb4;
 }
+.euiFieldNumber {
+  text-align: center;
+}

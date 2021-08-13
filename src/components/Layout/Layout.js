@@ -6,7 +6,7 @@ import euiVars from "@elastic/eui/dist/eui_theme_light.json";
 import "@elastic/eui/dist/eui_theme_light.css";
 import "../../assets/css/fonts.css";
 import "../../assets/css/override.css";
-import { } from "@elastic/eui";
+import {EuiText } from "@elastic/eui";
 
 const customTheme = {
   ...euiVars,
@@ -46,6 +46,9 @@ export default function Layout({ children }) {
           {/* <Sidebar /> */}
           <StyledMain>{children}</StyledMain>
         </StyledLayout>
+        <EuiText textAlign="center">
+          <p>© Ivory 2021</p>
+        </EuiText>
       </ThemeProvider>
     </React.Fragment>
   );
