@@ -44,8 +44,8 @@ export const formatURL = (url, params, adjustPath) => {
   //     : "http://192.168.0.185:8000/api/v1";
   const baseUrl =
     process.env.NODE_ENV === "production"
-      ? "https://wzl-kiosk.ey.r.appspot.com/api/v1"
-      : "https://wzl-kiosk.ey.r.appspot.com/api/v1";
+      ? "https://studious-apex-330414.ey.r.appspot.com/api/v1"
+      : "https://studious-apex-330414.ey.r.appspot.com/api/v1";
   const fullURL = `${baseUrl}${endpointPath}`;
   return formatURLWithQueryParams(fullURL, params);
 };

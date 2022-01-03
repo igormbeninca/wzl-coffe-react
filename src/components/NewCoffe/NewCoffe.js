@@ -114,16 +114,17 @@ function NewCoffe({
           image={
             <div>
               <EuiImage
-                size="m"
+                size="s"
                 alt="Product"
                 src= {productImages[item.category]?productImages[item.category]:coffe}
               />
           </div>
           }
           textAlign="center"
-          title={`${item.name} - ${item.price} €`}
+          title={`${item.name} ${Number(item.price).toFixed(2)} €`}
           isDisabled={false}
           description={item.description}
+
           onClick={(e) => handleOpenModal(item.name, item.id)}
         />
       </EuiFlexItem>
