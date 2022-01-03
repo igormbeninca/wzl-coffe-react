@@ -9,8 +9,12 @@ import {
   EuiButton,
   EuiForm, 
   EuiFormRow,
+  EuiFieldNumber,
+  EuiButtonIcon,
   EuiSuperSelect,
   EuiRange,
+  EuiFlexGroup,
+  EuiFlexItem,
 } from "@elastic/eui";
 
 function NewCoffeForm({
@@ -53,6 +57,14 @@ function NewCoffeForm({
 
     setForm((form) => ({ ...form, [label]: value }));
   };
+  const addQuantity = () => {
+    const value = parseInt(form.quantity) + 1;
+    setForm((form) => ({ ...form, ["quantity"]: value }));
+  }
+  const subQuantity = () => {
+    const value = parseInt(form.quantity) - 1;
+    setForm((form) => ({ ...form, ["quantity"]: value }));
+  }
 
   return (
     <>
@@ -68,7 +80,7 @@ function NewCoffeForm({
           />
         </EuiFormRow> */}
         <EuiFormRow label="Quantity">
-          <EuiRange
+          {/* <EuiRange
             id={htmlIdGenerator()()}
             max = {20}
             min = {1}
@@ -78,7 +90,39 @@ function NewCoffeForm({
             showRange
             fullWidth={true}
             tickInterval={1}
-        />
+        /> */}
+            <EuiFlexGroup gutterSize="s" direction="row" justifyContent="center">
+              <EuiFlexItem grow={false}>
+                <EuiButtonIcon
+                  display="base"
+                  iconType="arrowLeft"
+                  iconSize="l"
+                  size="m"
+                  aria-label="Next"
+                  onClick={(e) => subQuantity()}
+                />
+              </EuiFlexItem>
+              <EuiFlexItem >
+                <EuiFieldNumber
+                  placeholder="Quantity you want to buy"
+                  value={form.quantity}
+                  onChange={(e) => handleInputChange("quantity", e.target.value)}
+                  step={1}
+                  max={20}
+                  min={1}
+                />
+              </EuiFlexItem>
+              <EuiFlexItem grow={false}>
+                <EuiButtonIcon
+                  display="base"
+                  iconType="arrowRight"
+                  iconSize="l"
+                  size="m"
+                  aria-label="Next"
+                  onClick={(e) => addQuantity()}
+                />
+              </EuiFlexItem>
+            </EuiFlexGroup>
         </EuiFormRow>
         <EuiButton
             type="submit"

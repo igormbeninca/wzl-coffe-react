@@ -65,7 +65,7 @@ function reduceUsersPurchases(purchases,users) {
           return purchase});
 }
 
-export default function TopStatistics({user_data, purchase_data}){
+export default function TopStatistics({user_data, purchase_data, isLoading}){
     // Total Products
     const usersPurchases = reduceUsersPurchases(purchase_data, user_data).sort((a, b) => b.total - a.total);
     return(
@@ -93,7 +93,7 @@ export default function TopStatistics({user_data, purchase_data}){
                                             textAlign="left"
                                             titleColor="secondary"
                                             titleSize="m"
-                                            isLoading={false}/>
+                                            isLoading={isLoading}/>
                                     </EuiFlexItem>
                                 </EuiFlexGroup>
                             </EuiPanel>
@@ -103,7 +103,8 @@ export default function TopStatistics({user_data, purchase_data}){
                             <EuiPanel>
                                 <EuiFlexGroup gutterSize="none" direction="row">
                                     <EuiFlexItem>
-                                        <EuiIcon size="xxl" type="starFilled" color="primary" />
+                                        <EuiIcon size="l" type="starFilled" color="primary" />
+                                        <EuiIcon size="l" type="starFilled" color="primary" />
                                     </EuiFlexItem>
                                     <EuiFlexItem>
                                         <EuiStat
@@ -112,7 +113,7 @@ export default function TopStatistics({user_data, purchase_data}){
                                             titleColor="primary"
                                             textAlign="left"
                                             titleSize="m"
-                                            isLoading={false}/>
+                                            isLoading={isLoading}/>
                                     </EuiFlexItem>
                                 </EuiFlexGroup>
                             </EuiPanel>
@@ -121,7 +122,9 @@ export default function TopStatistics({user_data, purchase_data}){
                         <EuiPanel>
                             <EuiFlexGroup gutterSize="none" direction="row">
                                 <EuiFlexItem>
-                                    <EuiIcon size="xxl" type="starFilled" color="danger" />
+                                    <EuiIcon size="m" type="starFilled" color="danger" />
+                                    <EuiIcon size="m" type="starFilled" color="danger" />
+                                    <EuiIcon size="m" type="starFilled" color="danger" />
                                 </EuiFlexItem>
                                 <EuiFlexItem>
                                     <EuiStat
@@ -130,7 +133,7 @@ export default function TopStatistics({user_data, purchase_data}){
                                         titleColor="danger"
                                         textAlign="left"
                                         titleSize="m"
-                                        isLoading={false}/>
+                                        isLoading={isLoading}/>
                                 </EuiFlexItem>
                             </EuiFlexGroup>
                         </EuiPanel>

@@ -12,7 +12,8 @@ function DatePickerPurchases({
   const [endDate, setEndDate] = useState(moment());
 
   React.useEffect(() => {
-    fetchPurchases(startDate.format("YYYY-MM-DDT00:00:00.000000"),endDate.format("YYYY-MM-DDT23:59:00.000000") )
+    if (startDate <= endDate)
+      fetchPurchases(startDate.format("YYYY-MM-DDT00:00:00.000000"),endDate.format("YYYY-MM-DDT23:59:00.000000") )
   }, [fetchPurchases,startDate, endDate]);
 
   return (
