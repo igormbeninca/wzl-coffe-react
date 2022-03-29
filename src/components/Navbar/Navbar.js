@@ -61,10 +61,10 @@ function Navbar({ user, logUserOut, ...props }) {
         onClick={onMenuButtonClick}
       >
         {/* <EuiAvatar name={user.full_name || "Anonymous"} size="s" color="#006bb4" /> */}
-        <EuiAvatar  
-          name={user.full_name || ""} 
-          iconType={user.full_name != null? "" :"push"} 
-          size="m" 
+        <EuiAvatar
+          name={user.full_name || ""}
+          iconType={user.full_name != null? "" :"push"}
+          size="m"
           color="#006bb4" />
       </EuiHeaderSectionItemButton>
     );
@@ -86,11 +86,11 @@ function Navbar({ user, logUserOut, ...props }) {
             responsive={false}
           >
             <EuiFlexItem grow={false}>
-            <EuiAvatar  
-              name={user.full_name || ""} 
-              iconType={user.full_name != null? "user" :"visBarVerticalStacked"} 
+            <EuiAvatar
+              name={user.full_name || ""}
+              iconType={user.full_name != null? "user" :"visBarVerticalStacked"}
               size="xl"
-              color="#006bb4"  
+              color="#006bb4"
               />
             </EuiFlexItem>
 

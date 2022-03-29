@@ -23,6 +23,7 @@ export default function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<LandingPage />} />
+          <Route path="/notfound" element={<NotFoundPage/>}/>
           <Route
             path="/coffeanalytics"
             element={<ProtectedRoute component={PurchaseAnalytics} />}
